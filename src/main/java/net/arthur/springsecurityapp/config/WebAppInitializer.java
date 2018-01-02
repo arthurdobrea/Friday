@@ -20,7 +20,12 @@ public class WebAppInitializer implements WebApplicationInitializer {
                 "dispatcher", new DispatcherServlet(ctx)
         );
 
+        
+
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
+
+
+
     }
 }

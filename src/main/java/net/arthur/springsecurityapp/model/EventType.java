@@ -12,10 +12,13 @@ public enum EventType {
     RAPBATTLE("RAPBATTLE"),
     BOARDGAMES("BOARDGAMES");
 
-    private final String view;
+    private String view;
 
     EventType(String view) {
         this.view = view;
+    }
+    EventType() {
+
     }
 
     public String view() {

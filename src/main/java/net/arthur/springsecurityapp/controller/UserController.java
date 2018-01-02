@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -97,7 +97,25 @@ public class UserController {
     public void createEvent(Model model, @ModelAttribute("title") String title,
                             @ModelAttribute("location") String location,
                             @ModelAttribute("eventType") EventType eventType,
-                            @ModelAttribute("description") String description) {
-        eventService.saveEvent(new Event(title, eventType, location, description));
+                            @ModelAttribute("startDate")String startDate,
+                            @ModelAttribute("startTime")String startTime,
+                            @ModelAttribute("endDate")String endDate,
+                            @ModelAttribute("endTime")String endTime,
+                            @ModelAttribute("description") String description,
+                            @RequestParam CommonsMultipartFile[] fileUpload) {
+
+        String start = startDate.concat(" " + startTime);
+        String end = endDate.concat(" " + endTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateEvent = LocalDateTime.parse(start, formatter);
+        LocalDateTime endDateEvent = LocalDateTime.parse(end, formatter);
+
+        if (fileUpload != null && fileUpload.length > 0) {
+            for (CommonsMultipartFile aFile : fileUpload) {
+                //TODO: make image persist logic
+
+                eventService.saveEvent(new Event(title, eventType, location, startDateEvent, endDateEvent, description, aFile.getBytes()));
+            }
+        }
     }
 }

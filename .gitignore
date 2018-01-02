@@ -47,6 +47,7 @@ fabric.properties
 ### Example user template
 
 # IntelliJ project files
+frontend
 .idea
 *.iml
 out

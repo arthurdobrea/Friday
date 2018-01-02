@@ -1,5 +1,6 @@
 package net.arthur.springsecurityapp.model;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -34,6 +35,10 @@ public class Event implements Serializable {
 
     @Column(name = "event_name")
     private String title;
+
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
+    private byte[] image;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
@@ -79,13 +84,26 @@ public class Event implements Serializable {
 
     }
 
-    public Event(String title, EventType eventType, String location,
+    public Event(String title, EventType eventType, String location,LocalDateTime timeBegin,LocalDateTime timeEnd,
                   String description) {
         this.title = title;
         this.eventType = eventType;
         this.location = location;
+        this.start = timeBegin;
+        this.end = timeEnd;
         this.description = description;
     }
+    public Event(String title, EventType eventType, String location,LocalDateTime timeBegin,LocalDateTime timeEnd,
+                 String description,byte[] image) {
+        this.title = title;
+        this.eventType = eventType;
+        this.location = location;
+        this.start = timeBegin;
+        this.end = timeEnd;
+        this.description = description;
+        this.image = image;
+    }
+
 
 
 
@@ -180,7 +198,17 @@ public class Event implements Serializable {
         this.end = end;
     }
 
+    public String getImageBase64() {
+        return Base64.encode(image);
+    }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public String getDescription() {
         return description;

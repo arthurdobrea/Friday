@@ -74,8 +74,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="white-banner-wrapper">
-                        <a href="#" id="add-event-link">Добавить событие</a>
-                        <a href="#" id="friday-logo"><img src="../resources/img/friday-logo.png" alt="friday-logo"></a>
+                        <a href="/createEvent" id="add-event-link">Добавить событие</a>
+                        <a href="/index" id="friday-logo"><img src="../resources/img/friday-logo.png" alt="friday-logo"></a>
                     </div> <!-- white-banner-wrapper -->
                 </div>
             </div>
