@@ -15,23 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
+
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
 
-    public UserDetailsServiceImpl() {
-
-    }
-
     public UserDetailsServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        final User user = userDao.findByUsername(username);
+
+        if (isNull(user)) {
+            throw new UsernameNotFoundException(String.format("User with username [%s] not found", username));
+        }
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 

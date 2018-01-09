@@ -57,7 +57,7 @@ public class HibernateConfiguration {
 
     private Properties jpaProperties() {
         final Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.dialect", environment.getProperty("jdbc.hibernate.dialect"));
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
