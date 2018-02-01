@@ -42,16 +42,10 @@ public class User implements Serializable {
     @Column(name = "image")
     private byte[] image;
 
-    @Column(name = "position")
-    private String position;
-
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
 
-    @Column(name = "subscription_by_tag_type")
-    private String subscriptionByTagType;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -59,10 +53,10 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Notification> notifications;
 
     public User() {
@@ -145,14 +139,6 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
     public String getSubscriptionByEventType() {
         return subscriptionByEventType;
     }
@@ -181,14 +167,6 @@ public class User implements Serializable {
         }
 
         return subscriptionByEventTypeSet;
-    }
-
-    public String getSubscriptionByTagType() {
-        return subscriptionByTagType;
-    }
-
-    public void setSubscriptionByTagType(String subscriptionByTagType) {
-        this.subscriptionByTagType = subscriptionByTagType;
     }
 
     public List<Event> getEventsOfAuthor() {
@@ -226,31 +204,43 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (!id.equals(user.id)) return false;
+        if (!username.equals(user.username)) return false;
         if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
         if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (!email.equals(user.email)) return false;
+        if (!password.equals(user.password)) return false;
         if (confirmPassword != null ? !confirmPassword.equals(user.confirmPassword) : user.confirmPassword != null)
             return false;
-        return position != null ? position.equals(user.position) : user.position == null;
+        if (!Arrays.equals(image, user.image)) return false;
+        if (subscriptionByEventType != null ? !subscriptionByEventType.equals(user.subscriptionByEventType) : user.subscriptionByEventType != null)
+            return false;
+        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
+        if (events != null ? !events.equals(user.events) : user.events != null) return false;
+        if (eventsOfAuthor != null ? !eventsOfAuthor.equals(user.eventsOfAuthor) : user.eventsOfAuthor != null)
+            return false;
+        return notifications != null ? notifications.equals(user.notifications) : user.notifications == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
         result = 31 * result + (confirmPassword != null ? confirmPassword.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (subscriptionByEventType != null ? subscriptionByEventType.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (events != null ? events.hashCode() : 0);
+        result = 31 * result + (eventsOfAuthor != null ? eventsOfAuthor.hashCode() : 0);
+        result = 31 * result + (notifications != null ? notifications.hashCode() : 0);
         return result;
     }
 

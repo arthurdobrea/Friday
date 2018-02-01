@@ -1,15 +1,15 @@
 package net.arthur.springsecurityapp.model;
 
 public enum EventType {
-    MASTERCLASS("MASTERCLASS"),
+    MASTER("MASTER"),
     MOVIE("MOVIE"),
     PARTY("PARTY"),
     OTHER("OTHER"),
-    CONCERTS("CONCERTS"),
-    EXPOSITION("EXPOSITION"),
-    PERFORMANCE("PERFORMANCE"),
-    TRAININGS("TRAININGS"),
-    RAPBATTLE("RAPBATTLE"),
+    MUSIC("MUSIC"),
+    SHOW("SHOW"),
+    THEATER("THEATER"),
+    TRAINING("TRAINING"),
+    RAP("RAP"),
     BOARDGAMES("BOARDGAMES");
 
     private String view;
@@ -17,13 +17,9 @@ public enum EventType {
     EventType(String view) {
         this.view = view;
     }
-    EventType() {
-
-    }
 
     public String view() {
         return view;
     }
-
 
 }

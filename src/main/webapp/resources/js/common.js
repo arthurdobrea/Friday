@@ -78,17 +78,23 @@ $(document).ready(function(){
 			$list.hide();
 		});
 	});
-	$(function () {
-		$(".input-begining-date").flatpickr({
-			minDate: "today",
+
+	$(".input-begining-date").flatpickr({
+		minDate: "today",
     		maxDate: new Date().fp_incr(14) // 14 days from now
-		});
-		$(".input-begining-time").flatpickr({
-		    enableTime: true,
-		    noCalendar: true,
-		    dateFormat: "H:i",
-		    time_24hr: true
-		});
+    	});
+	$(".input-begining-time").flatpickr({
+		enableTime: true,
+		noCalendar: true,
+		dateFormat: "H:i",
+		time_24hr: true
 	});
+
+	$(".chat-content-wrapper").niceScroll({
+		cursorcolor: "#141414",
+		horizrailenabled: false
+	});
+
+	
 });
 

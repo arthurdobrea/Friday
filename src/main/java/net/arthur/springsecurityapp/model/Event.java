@@ -1,7 +1,9 @@
 package net.arthur.springsecurityapp.model;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,20 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-
-import java.io.Serializable;
-
-import java.time.LocalDateTime;
-
-import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -36,7 +24,8 @@ public class Event implements Serializable {
     @Column(name = "event_name")
     private String title;
 
-    @Lob @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image;
 
@@ -44,67 +33,64 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
     @Column(name = "event_location")
     private String location;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @BatchSize(size=1)
     private List<User> participants = new ArrayList<>();
 
     @Column(name = "createdata")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
     @Column(name = "timeend")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
     @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "event")
+    @BatchSize(size=1)
     private List<Notification> notifications;
 
     public Event() {
 
     }
 
-    public Event(String title, EventType eventType, String location,LocalDateTime timeBegin,LocalDateTime timeEnd,
-                  String description) {
+    public Event(String title) {
         this.title = title;
+    }
+
+    public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
+                 String description) {
+        this(title);
         this.eventType = eventType;
         this.location = location;
         this.start = timeBegin;
         this.end = timeEnd;
         this.description = description;
     }
-    public Event(String title, EventType eventType, String location,LocalDateTime timeBegin,LocalDateTime timeEnd,
-                 String description,byte[] image) {
-        this.title = title;
-        this.eventType = eventType;
-        this.location = location;
-        this.start = timeBegin;
-        this.end = timeEnd;
-        this.description = description;
+
+    public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
+                 String description, byte[] image) {
+        this(title, eventType, location, timeBegin, timeEnd, description);
         this.image = image;
     }
 
-
+    public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
+                 String description, byte[] image, User author) {
+        this(title, eventType, location, timeBegin, timeEnd, description, image);
+        this.author = author;
+    }
 
 
     public int getId() {
@@ -186,8 +172,9 @@ public class Event implements Serializable {
     }
 
     public void setStart(LocalDateTime start) {
-
+        start.toString().substring(11);
         this.start = start;
+
     }
 
     public LocalDateTime getEnd() {
