@@ -47,6 +47,8 @@ public class UserController {
     public String registration(@ModelAttribute(USER_FORM_ATTR) final User userForm, final BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
+        System.out.println(userForm.getPassword());
+
         if (bindingResult.hasErrors()) {
             return Pages.REGISTRATION;
         }

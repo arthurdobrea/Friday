@@ -3,94 +3,62 @@
  */
 package net.arthur.springsecurityapp.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-/**
- * Defines methods for configuring message handling with simple messaging
- * protocols (e.g. STOMP) from WebSocket clients. Typically used to customize
- * the configuration provided via the {@link EnableWebSocketMessageBroker}
- * annotation. <br/>
- * <br/>
- * WebSocketConfig is annotated with <code>@Configuration</code> to indicate
- * that it is a Spring configuration class. It is also annotated with
- * <code>@EnableWebSocketMessageBroker</code>. As its name suggests,
- * <code>@EnableWebSocketMessageBroker</code> enables WebSocket message
- * handling, backed by a message broker. <br/>
- * <br/>
- * Furthermore, this is also annotated with the <code>@EnableScheduling</code>
- * annotation. This enables Spring's scheduled task execution ability.
- * 
- * @author <a href="mailto:sunitkatkar@gmail.com">Sunit Katkar</a>
- * @since 1.0
- * @version 1.0.0.1
- */
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Configuration
 @EnableWebSocketMessageBroker
 @EnableScheduling
-public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+public class WebSocketConfig implements WebSocketConfigurer {
 
-    /**
-     * Configure STOMP over WebSocket end-points.
-     * 
-     */
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
+
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // The registerStompEndpoints() method registers the "/simplemessages"
-        // endpoint, enabling SockJS fallback options so that alternative
-        // messaging options may be used if WebSocket is not available. This
-        // endpoint when prefixed with "/app", is the endpoint that the
-        // WebSocketBroadcastController.processMessageFromClient() method is
-        // mapped to handle.
-        registry.addEndpoint("/simplemessages").withSockJS();
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
+        webSocketHandlerRegistry.addHandler(new SocketHandler(), "/web-socket");
     }
 
-    /**
-     * Configure message broker options.
-     */
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        // The configureMessageBroker() method overrides the default method in
-        // WebSocketMessageBrokerConfigurer to configure the message broker. It
-        // starts by calling enableSimpleBroker() to enable a simple
-        // memory-based message broker to carry the greeting messages back to
-        // the client on destinations prefixed with "/topic/". It also
-        // designates the "/app" prefix for messages that are bound for
-        // @MessageMapping-annotated methods.
+    public class SocketHandler extends TextWebSocketHandler {
 
-        config.enableSimpleBroker("/topic/", "/queue/","/user","/event");
-        config.setApplicationDestinationPrefixes("/app");
-        config.setUserDestinationPrefix("/user");
-    }
+        private List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
-    /**
-     * 
-     * Configure the {@link org.springframework.messaging.MessageChannel} used
-     * for incoming messages from WebSocket clients. By default the channel is
-     * backed by a thread pool of size 1. It is recommended to customize thread
-     * pool settings for production use.
-     */
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
+        @Override
+        public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+            sessions.add(session);
+            super.afterConnectionEstablished(session);
+        }
 
-    }
+        @Override
+        public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+            sessions.remove(session);
+            super.afterConnectionClosed(session, status);
+        }
 
-    /**
-     * Configure the {@link org.springframework.messaging.MessageChannel} used
-     * for outgoing messages to WebSocket clients. By default the channel is
-     * backed by a thread pool of size 1. It is recommended to customize thread
-     * pool settings for production use.
-     */
-    @Override
-    public void configureClientOutboundChannel(ChannelRegistration registration) {
-        registration.taskExecutor().corePoolSize(4).maxPoolSize(10);
+        @Override
+        protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+            super.handleTextMessage(session, message);
+            sessions.forEach(webSocketSession -> {
+                try {
+                    webSocketSession.sendMessage(message);
+                } catch (IOException e) {
+                    LOGGER.error("Error occurred.", e);
+                }
+            });
+        }
     }
 
 }

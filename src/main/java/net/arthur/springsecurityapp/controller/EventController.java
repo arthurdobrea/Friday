@@ -63,6 +63,17 @@ public class EventController {
         return Pages.INDEX;
     }
 
+    @GetMapping(URLs.CALENDAR)
+    public String calendar(){
+        return Pages.CALENDAR;
+    }
+
+    @PostMapping(URLs.CALENDAR)
+    public String calendar(@RequestParam String wtf){
+        System.out.println(wtf);
+        return Pages.CALENDAR;
+    }
+
     @GetMapping(URLs.CREATE)
     public String createEvent(Model model) {
         model.addAttribute(EVENT_DTO_ATTR, new EventDto());
@@ -74,11 +85,11 @@ public class EventController {
     public String createEvent(@ModelAttribute(EVENT_DTO_ATTR) @Valid final EventDto eventDto,
                               final BindingResult bindingResult,
                               final Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute(EVENT_DTO_ATTR, eventDto);
-            model.addAttribute(EVENT_TYPES_ATTR, EVENT_TYPES);
-            return Pages.CREATE_EVENT;
-        }
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute(EVENT_DTO_ATTR, eventDto);
+//            model.addAttribute(EVENT_TYPES_ATTR, EVENT_TYPES);
+//            return Pages.CREATE_EVENT;
+//        }
 
         final Event event = eventDto.toEvent();
         event.setAuthor(userService.findLoggedInUser());

@@ -1,7 +1,12 @@
 CREATE TABLE users (
   id       INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL,
+  email    VARCHAR(255) NOT NULL,
+  firstname VARCHAR(255) NOT NULL,
+  lastname VARCHAR(255) NOT NULL,
+  subscription_by_event_type VARCHAR(255),
+  image          bytea
 )
 
  ENGINE = InnoDB;
@@ -30,6 +35,7 @@ CREATE TABLE events (
   event_name     VARCHAR(255) NOT NULL,
   event_type     VARCHAR(255),
   author_user_id INT,
+  image          bytea,
   createdata     TIMESTAMP,
   timebegin      TIMESTAMP,
   timeend        TIMESTAMP,

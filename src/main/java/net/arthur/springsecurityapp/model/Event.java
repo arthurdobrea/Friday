@@ -24,7 +24,7 @@ public class Event implements Serializable {
     @Column(name = "event_name")
     private String title;
 
-    @Lob
+
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image;
