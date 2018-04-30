@@ -144,8 +144,8 @@
     </div> <!-- overlay-dialog -->
     <div class="white-banner">
         <div class="white-banner-wrapper">
-            <a href="index-add-event.html" class="add-event-link">Добавить событие</a>
-            <a href="index.html" class="friday-logo"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
+            <a href="${contextPath}/event/create" class="add-event-link">Добавить событие</a>
+            <a href="${contextPath}/" class="friday-logo"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
         </div> <!-- white-banner-wrapper -->
     </div> <!-- white-banner -->
     <div class="page-title">
@@ -182,8 +182,8 @@
                 <textarea class="input-message" name="textinput" cols="1" rows="1" placeholder="Введите сообщение.."></textarea>
                 <button type="button" class="send-message"><img src="img/send-button.png" alt="send-button"></button>
             </div>
-        </div>
-        <div class="event-page">
+        </div> <!-- chat-block -->
+        +<div class="event-page event-content">
             <div class="event-sponsor">
                 <div class="event-user-avatar">
                     <img src="img/user-avatar-1.png" alt="user-avatar">
@@ -196,7 +196,7 @@
                     <img src="${contextPath}/resources/img/more-options-icon.png" alt="more-option-icon">
                 </div>
                 <div class="event-option-menu">
-                    <a href="#">Пожаловаться</a>
+                    <a href="#" class="reason-btn">Пожаловаться</a>
                 </div>
             </div>
             <div class="event-banner">
@@ -254,7 +254,36 @@
             <div class="event-description">
                 <p>${event.description}</p>
             </div> <!-- event-description -->
-        </div>
+    </div> <!-- event-page -->
+        			<div class="complain-content">
+        				<div class="reasons-list-block">
+        					<span>указать причину блокировки события:</span>
+        					<label class="reasons-list-item">
+        						<input type="radio" aria-checked="false" name="reason-checked">
+        						Cобытые уже было опубликовано
+        					</label>
+        					<label class="reasons-list-item">
+        						<input type="radio" aria-checked="false" name="reason-checked">
+        						Оскорбление
+        					</label>
+        					<label class="reasons-list-item">
+        						<input type="radio" aria-checked="false" name="reason-checked">
+        						Пропаганда наркотиков
+        					</label>
+        					<label class="reasons-list-item">
+        						<input type="radio" aria-checked="false" name="reason-checked">
+        						Насилие / экстремизм
+        					</label>
+        					<label class="reasons-list-item">
+        						<input type="radio" aria-checked="false" name="reason-checked">
+        						Призыв к суициду
+        					</label>
+        				</div>
+        				<div class="reason-result">
+        					<span>ваша жалоба будет рассмотрена модераторами.</span>
+        					<a href="index.html" class="homepage-link">вернуться на главную</a>
+        				</div> <!-- reason-result -->
+        			</div> <!-- complain-content -->
     </div> <!-- event-page-block -->
     <div class="footer-dark">
         <div class="footer-dark-wrapper">

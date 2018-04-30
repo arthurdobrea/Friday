@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -86,4 +87,9 @@ public class EventDaoImpl implements EventDao {
                 .getResultList();
     }
 
+    @Override
+    public List<Event> getEventByDate(Date date) {
+        return null;
+
+    }
 }

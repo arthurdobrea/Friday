@@ -149,8 +149,8 @@
     </div> <!-- overlay-dialog -->
     <div class="white-banner">
         <div class="white-banner-wrapper">
-            <a href="index-add-event.html" class="add-event-link">Добавить событие</a>
-            <a href="index.html" class="friday-logo"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
+            <a href="${contextPath}/event/create" class="add-event-link">Добавить событие</a>
+            <a href="${contextPath}/" class="friday-logo"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
         </div> <!-- white-banner-wrapper -->
     </div> <!-- white-banner -->
     <div class="page-title">

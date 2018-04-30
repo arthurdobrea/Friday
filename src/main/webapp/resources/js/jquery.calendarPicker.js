@@ -21,7 +21,7 @@ jQuery.fn.calendarPicker = function(options) {
 
   if (typeof(options.callbackDelay) == "undefined")
     options.callbackDelay=500;
-  
+
   if (typeof(options.monthNames) == "undefined")
     options.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -53,6 +53,7 @@ jQuery.fn.calendarPicker = function(options) {
     calendar.currentDate = date;
 
     var fillYears = function(date) {
+        alert("hi");
       var year = date.getFullYear();
       var t = new Date();
       divYears.empty();
@@ -118,6 +119,9 @@ jQuery.fn.calendarPicker = function(options) {
             span.addClass("selected");
         }
         divDays.append(span);
+
+        var search = {}
+        search
 
       }
     }

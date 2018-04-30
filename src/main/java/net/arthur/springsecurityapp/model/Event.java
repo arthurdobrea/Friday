@@ -1,5 +1,6 @@
 package net.arthur.springsecurityapp.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -21,22 +22,26 @@ public class Event implements Serializable {
     @Column(name = "id")
     private int id;
 
+    @JsonView(Views.Public.class)
     @Column(name = "event_name")
     private String title;
 
-
+    @JsonView(Views.Public.class)
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image;
 
+    @JsonView(Views.Public.class)
     @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
     private EventType eventType;
 
+    @JsonView(Views.Public.class)
     @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
+    @JsonView(Views.Public.class)
     @Column(name = "event_location")
     private String location;
 

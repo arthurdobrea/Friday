@@ -2,8 +2,10 @@ package net.arthur.springsecurityapp.controller;
 
 import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
+import net.arthur.springsecurityapp.model.User;
 import net.arthur.springsecurityapp.model.dto.EventDto;
 import net.arthur.springsecurityapp.service.EventService;
+import net.arthur.springsecurityapp.service.NotificationService;
 import net.arthur.springsecurityapp.service.UserService;
 import net.arthur.springsecurityapp.util.Pages;
 import net.arthur.springsecurityapp.util.URLs;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.arthur.springsecurityapp.util.Pages.redirectFrom;
 
@@ -31,14 +35,19 @@ public class EventController {
 
     private static final EventType[] EVENT_TYPES = EventType.values();
 
+
     private final EventService eventService;
 
     private final UserService userService;
 
+    private final NotificationService notificationService;
+
+
     @Autowired
-    public EventController(EventService eventService, UserService userService) {
+    public EventController(EventService eventService, UserService userService,NotificationService notificationService) {
         this.eventService = eventService;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
 
@@ -91,9 +100,13 @@ public class EventController {
 //            return Pages.CREATE_EVENT;
 //        }
 
+        List<String> users = new ArrayList<>();
+        users.add("ArthurAD");
+        users.add("ArthurAD2");
         final Event event = eventDto.toEvent();
         event.setAuthor(userService.findLoggedInUser());
         eventService.saveEvent(event);
+        notificationService.sendToAllParticipants(users,event);
 
         return redirectFrom(Pages.EVENT) + event.getId();
     }
@@ -101,6 +114,12 @@ public class EventController {
     @GetMapping(URLs.FILTER)
     public String filterEvents(final Model model, @RequestParam String tag) {
         model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventsByType(EventType.valueOf(tag.toUpperCase())));
+        return Pages.INDEX;
+    }
+
+    @GetMapping(URLs.INDEX)
+    public String index(Model model) {
+        model.addAttribute(ALL_EVENTS_ATTR, eventService.getAllEvents());
         return Pages.INDEX;
     }
 

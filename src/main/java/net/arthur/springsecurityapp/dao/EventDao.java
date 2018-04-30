@@ -4,6 +4,7 @@ package net.arthur.springsecurityapp.dao;
 import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventDao {
@@ -25,4 +26,6 @@ public interface EventDao {
     List<Event> getAllEvents();
 
     List<Event> getEventByKeyWord(String keyword);
+
+    List<Event> getEventByDate(Date date);
 }

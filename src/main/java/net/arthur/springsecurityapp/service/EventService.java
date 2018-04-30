@@ -6,6 +6,7 @@ import net.arthur.springsecurityapp.model.EventType;
 
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -21,4 +22,7 @@ public interface EventService {
     List<Event> getAllEvents();
 
     List<Event> getEventByKeyWord(String keyword);
+
+    List<Event> getEventsByDate(Date date);
+
 }

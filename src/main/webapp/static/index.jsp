@@ -53,6 +53,7 @@
                 <a href="#" class="languages-wrapper nav-hover" id="language-ru">ru</a>
                 <a href="#" class="languages-wrapper nav-hover" id="language-md">md</a>
                 <a href="#" class="languages-wrapper nav-hover" id="language-en">en</a>
+                <div id="feedback"></div>
             </div>
             <div class="social-links-nav">
                 <a href="#" class="social-link"><img src="../resources/img/instagram.png" alt="instagram"></a>
@@ -60,8 +61,37 @@
                 <a href="#" class="social-link"><img src="../resources/img/vk.png" alt="instagram"></a>
             </div>
             <div class="nav-btn">
-                <a href="#" class="account-link reg-link nav-hover">Регистрация</a>
-                <a href="#" class="account-link auth-link nav-hover">Войти</a>
+                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                    <div class="panel-body" id="response"></div>
+                    <div class="user-profile">
+                        <div class="user-profile-wrapper" onmousedown="return false" onselectstart="return false">
+                            <div class="arrow-down-top-menu">
+                                <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
+                            </div>
+                            <div class="user-top-avatar">
+                                <img src="${contextPath}/resources/img/user-avatar-1.png" alt="user-avatar">
+                            </div>
+                            <div class="user-name-top-menu">
+                                <p>${pageContext.request.userPrincipal.name}</p>
+                            </div>
+                            <div class="top-menu-list">
+                                <a href="#">мой аккаунт</a>
+                                <a href="#">настройки</a>
+                                <div class="top-profile-sep"></div>
+                                <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                </form>
+                                <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${pageContext.request.userPrincipal.name == null}">
+                    <div class="nav-btn">
+                        <a href="#" class="account-link reg-link nav-hover">Регистрация</a>
+                        <a href="#" class="account-link auth-link nav-hover">Войти</a>
+                    </div>
+                </c:if>
             </div>
         </div>
     </div> <!-- top-black-nav -->
@@ -90,6 +120,8 @@
                     </div>
                     vkontakte
                 </a>
+
+
                 <div class="modal-input-fields">
                     <input type="email" placeholder="email">
                     <input type="text" placeholder="логин">
@@ -125,15 +157,25 @@
                     <input type="email" placeholder="email">
                     <span class="error-wrong-email">ваш Email не зарегистрирован.</span>
                 </div> <!-- overlay-frg-pas -->
-                <div class="modal-input-fields">
-                    <input type="email" placeholder="email">
-                    <input type="password" placeholder="пароль">
-                </div>
+                <form method="POST" action="${contextPath}/login" >
+                <div class="modal-input-fields" ${error != null ? 'has-error' : ''}">
+                <span>${message}</span>
+                <input name="username" type="text"  placeholder="Username"
+                       autofocus="true"/>
+                <input name="password" type="password" placeholder="Password"/>
+                <span>${error}</span>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </div>
+                <%--<div class="modal-input-fields">--%>
+                    <%--<input type="email" placeholder="email">--%>
+                    <%--<input type="password" placeholder="пароль">--%>
+                <%--</div>--%>
                 <span class="error-wrong-pass-or-login">неверный email или пароль.</span>
                 <div class="checkbox-remember-me">
                     <input type="checkbox" id="remember-me"><label for="remember-me">запомнить меня.</label>
                 </div>
-                <a href="#" class="btn-link-send"><button class="modal-send-button">отправить</button></a>
+                <a href="#" class="btn-link-send"><button type="submit" class="modal-send-button">отправить</button></a>
+            </form>
                 <a href="#" class="link-return-back"><div class="icon-left-arrow"><img src="${contextPath}/resources/img/left-arrow.png" alt="left-arrow"></div>вернуться к началу.</a>
                 <a href="#" class="link-forgot-pass">забыли пароль?</a>
             </div>
@@ -184,15 +226,15 @@
         <div class="event-content-block">
             <div class="event-banner">
                 <a href="${contextPath}/event/${et.id}">
-                    <img src="data:image/jpeg;base64, ${et.getImageBase64()}" alt="event-banner"></a>
+                    <img src="data:image/jpeg;base64, ${et.getImageBase64()}" alt="event-banner" id="myImg"></a>
             </div>
             <div class="event-day">10<span>пн</span></div>
-            <div class="event-title"><a href="../../../../../backup/friday.md-master/app/index-event-page.html"><p>${et.title}</p></a></div>
+            <div class="event-title"><a href="../../../../../backup/friday.md-master/app/index-event-page.html"><p id="myTitle">${et.title}</p></a></div>
             <div class="event-date-information">
-                <p class="event-date">${et.start.toString().substring(11)}</p><span></span><p class="event-place">${et.location}</p><span></span><p class="event-city">Кишинёв</p>
+                <p class="event-date" id="myTime">${et.start.toString().substring(11)}</p><span></span><p class="event-place" id="myPlace">${et.location}</p><span></span><p class="event-city">Кишинёв</p>
             </div>
             <div class="event-mini-information">
-                <p> ${et.description}</p>
+                <p id="myDesc"> ${et.description}</p>
             </div>
             <div class="event-sponsor">
                 <div class="event-user-avatar">
@@ -200,7 +242,7 @@
                 </div>
                 <div class="event-sponsor-name">
                     организатор
-                    <a href="../../../../../backup/friday.md-master/app/index-user-page.html"><p>${et.author.username}</p></a>
+                    <a href="../../../../../backup/friday.md-master/app/index-user-page.html"><p id="myName">${et.author.username}</p></a>
                 </div>
             </div>
         </div>
@@ -210,4 +252,13 @@
 </body>
 <script src="${contextPath}/resources/js/libs.min.js"></script>
 <script src="${contextPath}/resources/js/common.js"></script>
+<script src="${contextPath}/resources/js/stomp.js"></script>
+<script src="${contextPath}/resources/js/sockjs-0.3.4.min.js"></script>
+
+<script src="${contextPath}/resources/js/connectToServer.js"></script>
+<script src="${contextPath}/resources/js/fridaycalendar.js"></script>
+
+<script>
+    connectToServer()
+</script>
 </html>

@@ -22,6 +22,7 @@
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <jetty.version>9.4.6.v20170531</jetty.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
+        <jackson.version>2.6.3</jackson.version>
     </properties>
 
     <build>
@@ -246,6 +247,8 @@
             <version>42.2.1</version>
         </dependency>
 
+        <!-- webjars -->
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>sockjs-client</artifactId>
@@ -262,6 +265,38 @@
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
             <version>0.30</version>
+        </dependency>
+
+        <!-- Ajax -->
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>2.22.1</version>
         </dependency>
 
     </dependencies>

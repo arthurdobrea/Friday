@@ -1,6 +1,7 @@
 package net.arthur.springsecurityapp.controller;
 
 import net.arthur.springsecurityapp.model.User;
+import net.arthur.springsecurityapp.service.EventService;
 import net.arthur.springsecurityapp.service.SecurityService;
 import net.arthur.springsecurityapp.service.UserService;
 import net.arthur.springsecurityapp.util.Pages;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
+    private static final String ALL_EVENTS_ATTR = "allEvents";
     private static final String ERROR_ATTR = "error";
     private static final String MESSAGE_ATTR = "message";
     private static final String USER_FORM_ATTR = "userForm";
@@ -27,13 +29,17 @@ public class UserController {
 
     private final UserValidator userValidator;
 
+    private final EventService eventService;
+
     @Autowired
     public UserController(final UserService userService,
                           final SecurityService securityService,
-                          final UserValidator userValidator) {
+                          final UserValidator userValidator,
+                          final EventService eventService) {
         this.userService = userService;
         this.securityService = securityService;
         this.userValidator = userValidator;
+        this.eventService = eventService;
     }
 
     @GetMapping(URLs.REGISTRATION)
@@ -67,7 +73,8 @@ public class UserController {
         }
 
         if (logout != null) {
-            model.addAttribute(MESSAGE_ATTR, "Logged out successfully.");
+            model.addAttribute(ALL_EVENTS_ATTR, eventService.getAllEvents());
+            return Pages.INDEX;
         }
 
         return Pages.LOGIN;

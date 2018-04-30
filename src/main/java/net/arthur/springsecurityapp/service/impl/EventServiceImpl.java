@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,6 +49,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getEventByKeyWord(String keyword) {
         return eventDao.getEventByKeyWord(keyword);
+    }
+
+    @Override
+    public List<Event> getEventsByDate(Date date) {
+        eventDao.getEventByDate(date);
+        return null;
     }
 
 
