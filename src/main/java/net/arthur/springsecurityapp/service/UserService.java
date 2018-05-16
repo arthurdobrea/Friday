@@ -9,4 +9,6 @@ public interface UserService {
     User findByUsername(String username);
 
     User findLoggedInUser();
+
+    User update(User user);
 }

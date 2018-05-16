@@ -23,6 +23,8 @@ public interface EventService {
 
     List<Event> getEventByKeyWord(String keyword);
 
+    List<Event> getEventsByAuthor(Long id);
+
     List<Event> getEventsByDate(Date date);
 
 }

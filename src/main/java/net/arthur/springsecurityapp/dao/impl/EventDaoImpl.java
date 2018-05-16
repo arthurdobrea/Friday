@@ -92,4 +92,11 @@ public class EventDaoImpl implements EventDao {
         return null;
 
     }
+
+    @Override
+    public List<Event> getEventById(Long id) {
+        return entityManager.createQuery("SELECT e FROM Event e where e.author.id = :id",Event.class)
+                .setParameter("id",id)
+                .getResultList();
+    }
 }

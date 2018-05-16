@@ -3,13 +3,11 @@ package net.arthur.springsecurityapp.service.impl;
 import net.arthur.springsecurityapp.dao.EventDao;
 import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
-import net.arthur.springsecurityapp.model.User;
 import net.arthur.springsecurityapp.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -52,10 +50,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getEventsByAuthor(Long id) {
+        return eventDao.getEventById(id);
+    }
+
+    @Override
     public List<Event> getEventsByDate(Date date) {
         eventDao.getEventByDate(date);
         return null;
     }
-
 
 }

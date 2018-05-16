@@ -28,4 +28,8 @@ public interface EventDao {
     List<Event> getEventByKeyWord(String keyword);
 
     List<Event> getEventByDate(Date date);
+
+    List<Event> getEventById(Long username);
+
+
 }

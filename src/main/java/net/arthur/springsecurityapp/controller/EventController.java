@@ -29,6 +29,8 @@ public class EventController {
 
     private static final String ALL_EVENTS_ATTR = "allEvents";
 
+    private static final String USER = "user";
+
     private static final String EVENT_DTO_ATTR = "eventDto";
 
     private static final String EVENT_TYPES_ATTR = "eventTypes";
@@ -64,6 +66,14 @@ public class EventController {
         model.addAttribute("socket",event.getId());
 
         return Pages.EVENT;
+    }
+
+    @GetMapping("/user/{username}")
+    public String getUser(Model model, @PathVariable String username){
+        User user = userService.findByUsername(username);
+        model.addAttribute(USER, user);
+        model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventsByAuthor(user.getId()));
+        return Pages.USER;
     }
 
     @PostMapping(URLs.SEARCH)

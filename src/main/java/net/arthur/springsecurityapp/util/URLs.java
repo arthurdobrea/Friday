@@ -11,6 +11,8 @@ public class URLs {
     public static final String CREATE = "/create";
     public static final String FILTER = "/filter";
     public static final String CALENDAR = "/calendar";
+    public static final String USER = "/userPage";
+    public static final String USERSETTINGS = "/userSettings";
 
 
     private URLs() {

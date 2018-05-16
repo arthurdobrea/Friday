@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,17 +19,25 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+
     private UserDao userDao;
 
-    @Autowired
     private RoleDao roleDao;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
     private SecurityService securityService;
+
+    private EntityManager entityManager;
+
+    @Autowired
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder, SecurityService securityService, EntityManager entityManager) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.securityService = securityService;
+        this.entityManager = entityManager;
+    }
 
     @Override
     public User save(User user) {
@@ -48,5 +57,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findLoggedInUser() {
         return findByUsername(securityService.findLoggedInUsername());
+    }
+
+    @Override
+    public User update(User user) {
+        return entityManager.merge(user);
     }
 }
