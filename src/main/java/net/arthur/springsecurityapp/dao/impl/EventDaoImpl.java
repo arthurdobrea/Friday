@@ -4,10 +4,12 @@ package net.arthur.springsecurityapp.dao.impl;
 import net.arthur.springsecurityapp.dao.EventDao;
 import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
+import net.arthur.springsecurityapp.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -88,15 +90,32 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getEventByDate(Date date) {
-        return null;
-
+    public List<Event> getEventByDate(LocalDateTime date) {
+//        String patern = "%"+date+"%";
+        return entityManager.createQuery("SELECT e FROM Event e where e.start LIKE :patern",Event.class)
+                .setParameter("patern","%"+ date +"%")
+                .getResultList();
     }
 
     @Override
     public List<Event> getEventById(Long id) {
         return entityManager.createQuery("SELECT e FROM Event e where e.author.id = :id",Event.class)
                 .setParameter("id",id)
+                .getResultList();
+    }
+
+    @Override
+    public void saveTypeOfUser(String subscriptionByEventType) {
+        entityManager.createQuery("UPDATE User u SET u.subscriptionByEventType = :subscriptionByEventType WHERE u.id = :idi ")
+                .setParameter("subscriptionByEventType",subscriptionByEventType)
+                .setParameter("idi",1L)
+                .executeUpdate();
+    }
+
+    public List<User> getUsersByType(String keyword) {
+        return entityManager.createQuery("SELECT DISTINCT u FROM User u " +
+                "WHERE u.subscriptionByEventType LIKE :keyword ", User.class)
+                .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
     }
 }

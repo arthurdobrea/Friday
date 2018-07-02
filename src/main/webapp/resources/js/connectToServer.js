@@ -50,11 +50,9 @@ function sendMessageToServer(messageForServer) {
  *                       client side javascript generated message.
  */
 function showServerBroadcast(servermessage, localMessage) {
-    // Server surrounds the user sent message with <b> and </b>
-    // as &ltb&gt;message%lt;/b&gt;
-    // Use Jquery to decode the HTML and show it as <b>message</b>
     var decoded = $("<div/>").html(servermessage).text();
-
+    var event = '/event/' + servermessage;
+    document.getElementById("response").setAttribute("href",event);
     var tmp = "";
     var serverResponse = document.getElementById("response");
     var p = document.createElement('p');
@@ -62,23 +60,19 @@ function showServerBroadcast(servermessage, localMessage) {
 
     if (localMessage) {
         p.style.color = '#006600';
-        tmp = "<span class='glyphicon glyphicon-dashboard'></span> " + decoded + " (Browser time:" + getCurrentDateTime() + ")";
+        tmp = "<span class='glyphicon glyphicon-dashboard'></span> " + decoded + ")";
     } else {
-        p.style.color = '#8A0808';
-        tmp = "<span class='glyphicon glyphicon-arrow-right'></span> " + decoded;
+        p.style.color = '##ffffff';
+        tmp = " <span class='glyphicon glyphicon-arrow-right'></span> " + decoded;
     }
     //Assigning the decoded HTML to the <p> element
     p.innerHTML = tmp;
     serverResponse.appendChild(p);
+
 }
 
 /**
  * Utility function to return the date time in simple format
  * like Tue Jan 07 2014 @ 11:47:24 AM
  */
-function getCurrentDateTime() {
-    var date = new Date();
-    var n = date.toDateString();
-    var time = date.toLocaleTimeString();
-    return n + " @ " + time;
-}
+

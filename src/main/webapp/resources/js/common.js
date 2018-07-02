@@ -1,162 +1,197 @@
 $(document).ready(function(){
 
-    // Script for calendar
+	// ==================// SCRIPT FOR STICKY-EVENT-GROUP ANIMATION. PAGE "index.html" //================== //
 
-    var fridayCalendarPicker = $(".calendarpicker").calendarPicker({
-        monthNames:["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-        dayNames: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-        //callbackDelay:500,
-        years:0,
-        months:0,
-        days:8,
-        callback:function(cal) {
-            $("#wtf").html("Selected date: " + cal.currentDate);
-        }});
+	let $back_to_top = $('.sticky-logo');
+	let scroll_top_duration = 250;
+	$back_to_top.on('click', function(event){
+		event.preventDefault();
+		$('body,html').animate({
+			scrollTop: 0 ,
+		 	}, scroll_top_duration
+		);
+	});
 
-    // Script for modal window. Page "index.html".
+	// ==================// SCRIPT FOR STICKY-EVENT-GROUP. PAGE "index.html" //================== //
 
-    var $regLink = $('.reg-link'),
-        $authLink = $('.auth-link'),
-        $overlayToggle = $('.overlay-darken'),
-        $overlayDialogReg = $('.overlay-lighten-dialog-reg'),
-        $overlayDialogAuth = $('.overlay-lighten-dialog-auth'),
-        $overlayCloseBtn = $('.close-modal'),
-        $overlayDarkenLogo = $('.overlay-darken-logo');
-    Modal = {
-        show: function(event){
-            event.addClass('show-bg');
-            $(document.body).css('overflow', 'hidden');
-        },
-        hide: function(hidemodal){
-            hidemodal.removeClass('show-bg');
-            $(document.body).css('overflow', 'auto');
-        },
-        form: function(panel){
-            panel.addClass('show-panel');
-            $overlayDarkenLogo.addClass('show-panel');
-        },
-        hideform: function(hidePanel){
-            hidePanel.removeClass('show-panel');
-            $overlayDarkenLogo.removeClass('show-panel');
-        }
-    }
-    function OnClick(clicked, forms){
-        clicked.on('click', function() {
-            Modal.show($overlayToggle);
-            Modal.form(forms);
-            $overlayCloseBtn.on('click', function(){
-                Modal.hide($overlayToggle);
-                Modal.hideform(forms);
-            });
-        });
-    }
-    function hideOnClinkDarkenOverlay(overlaydarken){
-        overlaydarken.on('click', function() {
-            Modal.hide($overlayToggle);
-            Modal.hideform($overlayDialogReg);
-            Modal.hideform($overlayDialogAuth);
-        });
-    }
-    OnClick($regLink, $overlayDialogReg);
-    OnClick($authLink, $overlayDialogAuth);
-    hideOnClinkDarkenOverlay($overlayToggle);
+	$(".block-event-group").sticky({topSpacing:0, wrapperClassName: "sticky-event-group"});
 
-    // Script for event-page.
+	// ==================// SCRIPT FOR CALENDAR. PAGE "index.html" //================== //
 
-    var	$mnuToggle = $('.user-profile-wrapper'),
-        $mnuTop = $('.top-menu-list'),
-        $mnuOptionsBtn = $('.event-more-options-icon'),
-        $mnuOptions = $('.event-option-menu'),
-        $mnuShareBtn = $('.event-share'),
-        $mnuShare = $('.event-share-toggle'),
-        $complainBtn = $('.reason-btn'),
-        $reasonBlk = $('.complain-content'),
-        $eventPage = $('.event-content'),
-        menu = {
-            mnuactv: function(activemnu, bgformnu){
-                activemnu.addClass('toggle-mnu');
-                bgformnu.addClass('bg');
+	let fridayCalendarPicker = $(".calendarpicker").calendarPicker({
+		monthNames:["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+		dayNames: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+		years:0,
+		months:0,
+		days:8
+	});
+
+	// ==================// SCRIPT FOR "IMAGE-BOX". PAGE "index-add-event.html" //================== //
+
+	$.uploadPreview({
+		input_field: ".upload-img-input",
+		preview_box: ".image-box",
+		label_field: '.add-image-label',
+		label_default: ".after-upload-label",
+		no_label: false
+	});
+
+	// ==================// SCRIPT FOR POPUP-CALENDAR. PAGE "index-add-event.html" //================== //
+
+
+	$(".toggle-datepicker-date").flatpickr({
+		minDate: "today",
+        locale: {
+            firstDayOfWeek: 1,
+            weekdays: {
+                shorthand: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                longhand: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
             },
-            hidemnu: function(hidemnu, hidebgmnu){
-                hidemnu.removeClass('toggle-mnu');
-                hidebgmnu.removeClass('bg');
+            months: {
+                shorthand: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                longhand: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
             },
-            complaincontentactive: function(reasonslist){
-                reasonslist.addClass('active-complain-content');
-                $eventPage.addClass('hide-event-content');
-            }
         }
-    function activateMnu(actv, tgl){
-        $('html').on('click', function() {
-            menu.hidemnu(tgl, actv);
-        });
-        actv.on('click', function(e) {
-            e.stopPropagation();
-            if (tgl.hasClass('toggle-mnu') == false) {
-                menu.mnuactv(tgl, actv);
-            }else menu.hidemnu(tgl, actv);
-        });
-    }
-    function activeReasonList(reasonbutton, reasonblock){
-        reasonbutton.on('click', function(e) {
-            e.preventDefault();
-            menu.complaincontentactive(reasonblock);
-        });
-    }
-    activateMnu($mnuToggle, $mnuTop);
-    activateMnu($mnuOptionsBtn, $mnuOptions);
-    activateMnu($mnuShareBtn, $mnuShare);
-    activeReasonList($complainBtn, $reasonBlk);
+	});
+	$(".toggle-datepicker-time").flatpickr({
+		enableTime: true,
+		noCalendar: true,
+		dateFormat: "H:i",
+		time_24hr: true
+	});
+
+	// ==================// SCRIPT FOR CHAT SCROLL. PAGE "index-add-event.html" //================== //
+
+	$(".chat-content").niceScroll({
+		cursorcolor: "#141414",
+		cursorwidth: "7px",
+		horizrailenabled: false,
+		zindex: 1,
+		cursorborderradius: "2px"
+	});
+
+	// ==================// SCRIPT FOR CHAT TEXTAREA. PAGE "index-event-page.html" //================== //
+
+	$('.input-message').textareaAutoSize();
 
 
-
-    // Script for "image-box". Page "index-add-event.html".
-
-    $.uploadPreview({
-        input_field: ".upload-img-input",
-        preview_box: ".image-box",
-        label_field: '.add-image-label',
-        label_default: ".after-upload-label",
-        no_label: false
-    });
-    $(".input-begining-date").flatpickr({
-        minDate: "today",
-        maxDate: new Date().fp_incr(14) // 14 days from now
-    });
-    $(".input-begining-time").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true
-    });
-    $(".chat-content").niceScroll({
-        cursorcolor: "#141414",
-        cursorwidth: "7px",
-        horizrailenabled: false,
-        zindex: 1,
-        cursorborderradius: "2px"
-    });
-    $('.input-message').textareaAutoSize();
-
-
-    //Empty for jquery scripts .........................
-
-
+	//Empty for jquery scripts .........................
 
 });
 
-// Script for index-account-settings
+	// ==================// PURE JS SCRIPTS //================== //
 
-function openSetting(evt, stg) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace("active-setting-link", "");
-    }
-    document.getElementById(stg).style.display = "block";
-    $(evt).addClass('active-setting-link');
-}
+	// ==================// SCRIPT FOR MODAL WINDOW. PAGE "index.html" //================== //
+
+	// Global variables
+	
+	
+	// Execute the modal main function
+	function showModalContent(activeBtn, activeContent, closeBtn){
+		// Variables
+		const activeOverlay = document.querySelector('.overlay-darken');
+		closeBtn = document.querySelector(closeBtn);
+		activeBtn = document.querySelector(activeBtn);
+		activeContent = document.querySelector(activeContent);
+		// Load event listeners
+		document.addEventListener('click', getOverlayClick);
+		closeBtn.addEventListener('click', closeModal);
+		// Load darken overlay
+		getOverlayEffect(activeContent);
+		function getOverlayEffect(activeContent){
+			activeOverlay.style.visibility = 'visible';
+			document.body.style.overflow = 'hidden';
+			activeContent.style.display = 'block';
+			document.querySelector('.overlay-dialog').classList.add('modal-ani');
+		}
+		function getOverlayClick(e){
+			if (e.target === activeOverlay && activeOverlay.contains(e.target)) {
+				document.body.style.overflow = 'auto';
+				activeOverlay.style.visibility = 'hidden';
+				activeContent.style.display = 'none';
+				document.querySelector('.overlay-dialog').classList.remove('modal-ani');
+			}
+		}
+		function closeModal(){
+			document.body.style.overflow = 'auto';
+			activeOverlay.style.visibility = 'hidden';
+			activeContent.style.display = 'none';
+			document.querySelector('.overlay-dialog').classList.remove('modal-ani');
+		}
+	}
+
+	// ==================// SCRIPT FOR MENU DROPDOWN. PAGE "index-user-profile.html" //================== //
+
+	function showContent(activeMenuBtn, activeMenuContent){
+		// Variables
+		activeMenuBtn = document.querySelector(activeMenuBtn),
+		activeMenuContent = document.querySelector(activeMenuContent);
+		  
+		// Load Listeners 
+		getContentBlock();
+		loadEventListeners();
+		function loadEventListeners(){
+			document.addEventListener('click', outsideUserClick);
+		}
+		
+		// Functions
+		function getContentBlock(){
+			if(activeMenuContent.classList.contains('show-mnu')){
+				activeMenuBtn.classList.contains('notification-bell-nav') === true ? getBellColorGray() : '';
+				activeMenuBtn.classList.remove('btn-active');
+				activeMenuContent.classList.remove('show-mnu');
+			}else{
+				activeMenuBtn.classList.contains('notification-bell-nav') === true ? getBellColorWhite() : '';
+				activeMenuContent.classList.add('show-mnu');
+				activeMenuBtn.classList.add('btn-active');
+			}
+		}
+        function getBellColorGray(){
+            const bellWrapper = document.querySelector('.notification-btn');
+            bellWrapper.style = "opacity: 0.5";
+        }
+        function getBellColorWhite(){
+            const bellWrapper = document.querySelector('.notification-btn');
+            bellWrapper.style = "opacity: 1";
+        }
+		function outsideUserClick(e){
+			if (e.target !== activeMenuBtn && !activeMenuBtn.contains(e.target)) {
+				activeMenuBtn.classList.contains('notification-bell-nav') === true ? getBellColorGray() : '';
+				activeMenuContent.classList.remove('show-mnu');
+				activeMenuBtn.classList.remove('btn-active');
+			}
+		}
+	}
+
+	// ==================// SCRIPT FOR TAB SETTINGS. PAGE "index-account-settings.html" //================== //
+
+	function openSetting(evt, stg) {
+		let i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tab-content");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tab-link");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace("active-tab-link", "");
+		}
+		document.querySelector(stg).style.display = "block";
+		evt.classList.add('active-tab-link');
+	}
+
+	// ==================// SCRIPT FOR OPTION ITEMS. PAGE "index-event-page.html" //================== //
+
+	function showOptionContent(optionBtn, optionContent, lastContent){
+		optionBtn = document.querySelector(optionBtn);
+        optionContent = document.querySelector(optionContent);
+		lastContent = document.querySelector(lastContent);
+		if(optionContent.classList.contains('active-complain-content')){
+            optionContent.classList.remove('active-complain-content');
+			lastContent.style.display = 'block';
+		}else{
+            optionContent.classList.add('active-complain-content');
+			lastContent.style.display = 'none';
+		}
+	}
+
+	// ==================// END //================== // 

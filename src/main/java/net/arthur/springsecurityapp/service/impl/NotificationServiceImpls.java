@@ -20,12 +20,11 @@ public class NotificationServiceImpls implements NotificationService {
 
 
     @Override
-    public void sendToAllParticipants(List<String> users, Event eventForm) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
-
-        for (String it : users) {
-            template.convertAndSendToUser(it, "/queue/reply",
-                    new MessageBroadcast("hi"));
+    public void sendToAllParticipants(List<User> users, Event eventForm) {
+        eventForm.setDescription("dsfwefwdwdfwdfwdf");
+        for (User it : users) {
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply",
+                    eventForm.toString());
         }
     }
 }

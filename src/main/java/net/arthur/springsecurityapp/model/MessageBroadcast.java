@@ -3,6 +3,8 @@
  */
 package net.arthur.springsecurityapp.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * This POJO is for broadcasting (or publishing) the received message (
  * {@link SimpleMessage}) to all clients who are subscribed to the
@@ -19,8 +21,13 @@ package net.arthur.springsecurityapp.model;
  */
 public class MessageBroadcast {
 
+    @JsonView(Views.Public.class)
     private String messageContent;
+
+    @JsonView(Views.Public.class)
     private String destination;
+
+    @JsonView(Views.Public.class)
     private String username;
 
 

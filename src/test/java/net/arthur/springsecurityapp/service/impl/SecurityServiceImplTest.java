@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import static com.sun.org.apache.xml.internal.utils.LocaleUtility.EMPTY_STRING;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +42,7 @@ public class SecurityServiceImplTest {
     private static void initSecurityContextWithUser(final Object user) {
         final SecurityContext context = SecurityContextHolder.getContext();
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null);
-        token.setDetails(EMPTY_STRING);
+        token.setDetails("");
         context.setAuthentication(token);
     }
 

@@ -124,17 +124,46 @@ jQuery.fn.calendarPicker = function(options) {
             return calendar.currentDate.getFullYear() + ' ' + calendar.currentDate.getMonth() + ' ' + calendar.currentDate.getDate();
         }
         var dateFormat  = JSONhandler();
-        console.log(dateFormat);
+        $('#fri-loader').addClass('loader-body');
+        // console.log(dateFormat);
         $.ajax({
             type : "POST",
             contentType : "application/json",
             url : "/search/api/create",
             data : JSON.stringify(dateFormat),
             dataType : 'json',
-            timeout : 100000,
-
             success : function(data) {
-                console.log("SUCCESS: ", data);
+                $('#fri-loader').removeClass('loader-body');
+                var output = '';
+
+                data.reverse().forEach(function (event) {
+                    output += `
+                        <div class="event-content-block">
+                            <div class="event-banner">
+                                <a href="/event/${event.title}"><img src="data:image/jpeg;base64,${event.image}" alt="event-banner"></a>
+                            </div>
+                            <div class="event-day">10<span>пн</span></div>
+                            <div class="event-title"><a href="#"><p id="myTitle">${event.title}</p></a></div>
+                            <div class="event-date-information">
+                                <p class="event-date" id="myTime">#</p><span></span>
+                                <p class="event-place" id="myPlace">${event.location}</p><span></span>
+                                <p class="event-city">Кишинёв</p>
+                            </div>
+                            <div class="event-mini-information">${event.description}</div>
+                            <div class="event-sponsor">
+                                <div class="event-user-avatar">
+                                    <img src="data:image/jpeg;base64,${event.author.image}" alt="user-avatar">
+                                </div>
+                                <div class="event-sponsor-name">
+                                    организатор
+                                    <a href="event/user/${event.author.username}" id="#user"><p>${event.author.username}</p></a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.querySelector('.event-main-block').innerHTML = output;
+                console.log(data);
                 display(data);
             },
             error : function(e) {

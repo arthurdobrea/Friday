@@ -13,72 +13,141 @@
     <meta name="description" content="thx god it's friday">
     <meta mame="author" content="SRL FRIDAY">
     <link rel="stylesheet" href="${contextPath}/resources/css/main.css">
-    <!-- Стандартная иконка -->
     <link rel="icon" type="image/x-icon" href="${contextPath}/resources/img/favicon/favicon.png">
-    <!-- Рекоменндованная иконка -->
     <link rel="icon" type="image/png" href="${contextPath}/resources/img/favicon/apple-touch-icon-114x114.png">
-    <!-- Иконка Apple -->
     <link rel="apple-touch-icon" href="${contextPath}/resources/img/favicon/apple-touch-icon-114x114.png">
-    <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
 </head>
 <body>
-<div class="wrapper">
-    <div class="auth-form white-form">
-        <div class="overlay-darken-logo">
-            <div class="darken-logo">
-                <a href="${contextPath}/"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
-            </div>
-        </div> <!-- overlay-darken-logo -->
-        <div class="overlay-lighten-dialog">
-            <div class="overlay-scf-sending">
-                на ваш Email отправлен пароль к аккаунту.
-            </div>
-            <div class="overlay-content">
-                <h1>войти</h1>
-                <a href="#" class="social-btn social-btn-top">
-                    <div class="modal-social-icon">
-                        <img src="${contextPath}/resources/img/facebook-modal-icon.png" alt="modal-facebook-icon">
+    <div class="wrapper" style="background-image: url(${contextPath}/resources/img/bg.jpg)">
+        <div class="overlay-bg">
+            <a href="index.html" class="top-darken-button">
+                вернуться на главную
+            </a>
+            <div class="auth-wrapper-center">
+                <div class="overlay-darken-logo">
+                    <div class="darken-logo">
+                        <a href="${contextPath}/"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>
                     </div>
-                    <span id="text-white">facebook</span>
-                </a>
-                <a href="#" class="social-btn social-btn-bottom">
-                    <div class="modal-social-icon">
-                        <img src="${contextPath}/resources/img/vk-modal-icon.png" alt="modal-vk-icon">
+                </div> <!-- overlay-darken-logo -->
+                <div class="overlay-scf-sending">
+                    на ваш Email отправлена ссылка для подтверждения аккаунта.
+                </div>
+                <div class="overlay-content">
+                    <h1>войти</h1>
+                    <a href="#" class="social-btn social-btn-top">
+                        <div class="social-icon">
+                            <img src="${contextPath}/resources/img/facebook-modal-icon.png" alt="facebook-icon">
+                        </div>
+                        <span class="text-white">facebook</span>
+                    </a>
+                    <a href="#" class="social-btn social-btn-bottom">
+                        <div class="social-icon">
+                            <img src="${contextPath}/resources/img/vk-modal-icon.png" alt="vk-icon">
+                        </div>
+                        <span>vkontakte</span>
+                    </a>
+                    <div class="overlay-frg-pas">
+                        <span class="title-enter-email">введите ваш Email</span>
+                        <input type="email" placeholder="email">
+                        <a href="#" class="${contextPath}/"><div class="icon-left-arrow"><img src="${contextPath}/resources/img/left-arrow.png" alt="left-arrow"></div>Вернуться к началу.</a>
+                        <button class="send-button">отправить</button>
+                    </div> <!-- overlay-frg-pas -->
+                    <div class="auth-input-fields">
+                        <form method="POST" action="${contextPath}/login">
+                            <input name="username" type="text" autofocus="true" placeholder="email">
+                            <input name="password" type="password" placeholder="пароль">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <span class="error-wrong-pass-or-login">неверный email или пароль.</span>
+                            <label class="checkbox-bottom" onmousedown="return false" onselectstart="return false">
+                                Запомнить меня
+                                <input type="checkbox" name="agree-rules" id="agree-rules-checkbox">
+                                <span class="checkmark"></span>
+                            </label> <!-- checkbox-bottom -->
+                            <button class="send-button">отправить</button>
+                        </form>
                     </div>
-                    <span>vkontakte</span>
-                </a>
-                <div class="overlay-frg-pas">
-                    <span class="title-enter-email">введите ваш Email для смены пароля.</span>
-                    <input type="email" placeholder="email">
-                    <span class="error-wrong-email">ваш Email не зарегистрирован.</span>
-                </div> <!-- overlay-frg-pas -->
-                <form method="POST" action="${contextPath}/login">
-                <div class="input-field">
-                    <input name="username" autofocus="true" placeholder="email">
-                    <input name="password"  type="password" placeholder="пароль">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <a href="${contextPath}/registration" class="bottom-link-to-reg">нет аккаунта? <span>Регистрация</span></a>
+                    <a href="${contextPath}/" class="bottom-link-forgot-pass">забыли пароль?</a>
                 </div>
-                <span class="error-wrong-pass-or-login">неверный email или пароль.</span>
-                <div class="checkbox-remember-me">
-                    <input type="checkbox" id="remember-me"><label for="remember-me">запомнить меня.</label>
-                </div>
-                <a href="#" class="btn-link-send"><button class="modal-send-button"type="submit">отправить</button></a>
-                </form>
-                <a href="#" class="link-return-back"><div class="icon-left-arrow"><img src="${contextPath}/resources/img/left-arrow.png" alt="left-arrow"></div>вернуться к началу.</a>
-                <div class="bottom-link">
-                    <span>нет аккаунта?</span> <a href="${contextPath}/registration">Регистрация.</a>
-                </div>
-                <a href="#" class="link-forgot-pass">забыли пароль?</a>
-            </div>
-        </div> <!-- overlay-lighten-dialog-auth -->
-    </div> <!-- auth-form -->
-</div> <!-- wrapper -->
-<script src="${contextPath}/resources/js/libs.min.js"></script>
-<script src="${contextPath}/resources/js/common.js"></script>
+            </div> <!-- auth-wrapper-center -->
+            <div class="lang">
+                <a href="${contextPath}/">ru</a>
+                <a href="${contextPath}/">md</a>
+                <a href="${contextPath}/">en</a>
+            </div> <!-- lang -->
+        </div> <!-- overlay-bg -->
+    </div> <!-- wrapper -->
+    <script src="${contextPath}/resources/js/libs.min.js"></script>
+    <script src="${contextPath}/resources/js/common.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+<%--<div class="auth-form white-form">--%>
+    <%--<div class="overlay-darken-logo">--%>
+        <%--<div class="darken-logo">--%>
+            <%--<a href="${contextPath}/"><img src="${contextPath}/resources/img/friday-logo.png" alt="friday-logo"></a>--%>
+        <%--</div>--%>
+    <%--</div> <!-- overlay-darken-logo -->--%>
+    <%--<div class="overlay-lighten-dialog">--%>
+        <%--<div class="overlay-scf-sending">--%>
+            <%--на ваш Email отправлен пароль к аккаунту.--%>
+        <%--</div>--%>
+        <%--<div class="overlay-content">--%>
+            <%--<h1>войти</h1>--%>
+            <%--<a href="#" class="social-btn social-btn-top">--%>
+                <%--<div class="modal-social-icon">--%>
+                    <%--<img src="${contextPath}/resources/img/facebook-modal-icon.png" alt="modal-facebook-icon">--%>
+                <%--</div>--%>
+                <%--<span id="text-white">facebook</span>--%>
+            <%--</a>--%>
+            <%--<a href="#" class="social-btn social-btn-bottom">--%>
+                <%--<div class="modal-social-icon">--%>
+                    <%--<img src="${contextPath}/resources/img/vk-modal-icon.png" alt="modal-vk-icon">--%>
+                <%--</div>--%>
+                <%--<span>vkontakte</span>--%>
+            <%--</a>--%>
+            <%--<div class="overlay-frg-pas">--%>
+                <%--<span class="title-enter-email">введите ваш Email для смены пароля.</span>--%>
+                <%--<input type="email" placeholder="email">--%>
+                <%--<span class="error-wrong-email">ваш Email не зарегистрирован.</span>--%>
+            <%--</div> <!-- overlay-frg-pas -->--%>
+            <%--<form method="POST" action="${contextPath}/login">--%>
+                <%--<div class="input-field">--%>
+                    <%--<input name="username" type="text" autofocus="true" placeholder="UserName">--%>
+                    <%--<input name="password"  type="password" placeholder="пароль">--%>
+                    <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
+                <%--</div>--%>
+                <%--<span class="error-wrong-pass-or-login">неверный email или пароль.</span>--%>
+                <%--<div class="checkbox-remember-me">--%>
+                    <%--<input type="checkbox" id="remember-me"><label for="remember-me">запомнить меня.</label>--%>
+                <%--</div>--%>
+                <%--<a href="#" class="btn-link-send"><button class="modal-send-button"type="submit">отправить</button></a>--%>
+            <%--</form>--%>
+            <%--<a href="#" class="link-return-back"><div class="icon-left-arrow"><img src="${contextPath}/resources/img/left-arrow.png" alt="left-arrow"></div>вернуться к началу.</a>--%>
+            <%--<div class="bottom-link">--%>
+                <%--<span>нет аккаунта?</span> <a href="${contextPath}/registration">Регистрация.</a>--%>
+            <%--</div>--%>
+            <%--<a href="#" class="link-forgot-pass">забыли пароль?</a>--%>
+        <%--</div>--%>
+    <%--</div> <!-- overlay-lighten-dialog-auth -->--%>
+<%--</div> <!-- auth-form -->--%>
+
+
+
+
+
+
+
+
 
 
 

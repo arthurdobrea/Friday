@@ -1,17 +1,14 @@
 package net.arthur.springsecurityapp.model;
 
+
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "events")
@@ -27,7 +24,6 @@ public class Event implements Serializable {
     private String title;
 
     @JsonView(Views.Public.class)
-    @Basic(fetch = FetchType.LAZY)
     @Column(name = "image")
     private byte[] image;
 
@@ -45,27 +41,28 @@ public class Event implements Serializable {
     @Column(name = "event_location")
     private String location;
 
-    @ManyToMany
-    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @BatchSize(size=1)
-    private List<User> participants = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    @BatchSize(size=1)
+//    private List<User> participants = new ArrayList<>();
 
+    @JsonView(Views.Public.class)
     @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();
 
+    @JsonView(Views.Public.class)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
+    @JsonView(Views.Public.class)
     @Column(name = "timeend")
     private LocalDateTime end;
 
+    @JsonView(Views.Public.class)
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "event")
-    @BatchSize(size=1)
-    private List<Notification> notifications;
 
     public Event() {
 
@@ -97,7 +94,6 @@ public class Event implements Serializable {
         this.author = author;
     }
 
-
     public int getId() {
         return id;
     }
@@ -114,8 +110,12 @@ public class Event implements Serializable {
         this.title = title;
     }
 
-    public String getTitleAndId() {
-        return "{id: " + id + ", title: " + title + "}";
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public EventType getEventType() {
@@ -142,28 +142,6 @@ public class Event implements Serializable {
         this.location = location;
     }
 
-    public List<User> getParticipants() {
-        return new ArrayList<>(new HashSet<>(participants));
-    }
-
-    public void setParticipants(List<User> participants) {
-        this.participants = participants;
-    }
-
-    public String getParticipantsToString() {
-        if (participants.isEmpty() || participants == null) {
-            return null;
-        }
-
-        StringBuilder part = new StringBuilder();
-
-        for (User participant : getParticipants()) {
-            part.append(participant.getFullName() + ",");
-        }
-
-        return part.toString();
-    }
-
     public LocalDateTime getEventCreated() {
         return eventCreated;
     }
@@ -176,10 +154,12 @@ public class Event implements Serializable {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
-        start.toString().substring(11);
-        this.start = start;
+    public String getImageBase64() {
+        return Base64.encode(image);
+    }
 
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
     public LocalDateTime getEnd() {
@@ -190,18 +170,6 @@ public class Event implements Serializable {
         this.end = end;
     }
 
-    public String getImageBase64() {
-        return Base64.encode(image);
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -210,45 +178,28 @@ public class Event implements Serializable {
         this.description = description;
     }
 
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Event event = (Event) o;
-
-        if (id != event.id) return false;
-        if (title != null ? !title.equals(event.title) : event.title != null) return false;
-        if (eventType != event.eventType) return false;
-        if (!author.equals(event.author)) return false;
-        if (!location.equals(event.location)) return false;
-        if (!start.equals(event.start)) return false;
-        if (!end.equals(event.end)) return false;
-        if (!eventCreated.equals(event.eventCreated)) return false;
-        return description.equals(event.description);
+        return id == event.id &&
+                Objects.equals(title, event.title) &&
+                Arrays.equals(image, event.image) &&
+                eventType == event.eventType &&
+                Objects.equals(author, event.author) &&
+                Objects.equals(location, event.location) &&
+                Objects.equals(eventCreated, event.eventCreated) &&
+                Objects.equals(start, event.start) &&
+                Objects.equals(end, event.end) &&
+                Objects.equals(description, event.description);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (participants != null ? participants.hashCode() : 0);
-        result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (end != null ? end.hashCode() : 0);
-        result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+
+        int result = Objects.hash(id, title, eventType, author, location, eventCreated, start, end, description);
+        result = 31 * result + Arrays.hashCode(image);
         return result;
     }
 
@@ -256,15 +207,15 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", title='" + title +
+                ", title='" + title + '\'' +
+                ", image=" + Arrays.toString(image) +
                 ", eventType=" + eventType +
                 ", author=" + author +
-                ", location='" + location +
-                ", participants=" + participants +
+                ", location='" + location + '\'' +
+                ", eventCreated=" + eventCreated +
                 ", start=" + start +
                 ", end=" + end +
-                ", eventCreated=" + eventCreated +
-                ", description='" + description +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

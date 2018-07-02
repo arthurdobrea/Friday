@@ -1,34 +1,29 @@
 CREATE TABLE users (
-  id       INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id       SERIAL PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  email    VARCHAR(255) NOT NULL,
-  firstname VARCHAR(255) NOT NULL,
-  lastname VARCHAR(255) NOT NULL,
+  email    VARCHAR(255),
+  firstname VARCHAR(255),
+  lastname VARCHAR(255),
   subscription_by_event_type VARCHAR(255),
   image          bytea
-)
-
- ENGINE = InnoDB;
+);
 
 CREATE TABLE  roles(
-  id int NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL
-)
-  ENGINE = InnoDB;
+);
 
 CREATE TABLE  user_roles(
   user_id int not NULL,
   role_id int not null,
 
 
-  FOREIGN KEY (user_id) REFERENCES useres(id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (role_id) REFERENCES roles(id),
 
   UNIQUE (user_id,role_id)
-)
-
-  ENGINE = InnoDB;
+);
 
 CREATE TABLE events (
   id             BIGSERIAL    NOT NULL PRIMARY KEY,
@@ -68,9 +63,8 @@ CREATE TABLE events_tags (
   FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
-INSERT INTO useres VALUES (1, 'admin','312r821747f19f1830ue984f57910fj');
 
-INSERT roles VALUES (1,'ROLE_USER');
-INSERT roles VALUES (2,'ROLE_ADMIN');
+INSERT INTO roles VALUES (1,'ROLE_USER');
+INSERT INTO roles VALUES (2,'ROLE_ADMIN');
 
-INSERT INTO user_roles VALUES(1,2);
+insert into users values(4,'ARNOLDIN','12345678','asdasdasd@mail.ru','Arnoldin','White')

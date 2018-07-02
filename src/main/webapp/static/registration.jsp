@@ -54,7 +54,6 @@
                 </a>
 <form:form method="POST" modelAttribute="userForm">
                 <div class="input-field">
-                    <input type="email" placeholder="email">
     <form:input type="text" path="username"  placeholder="логин"
                 autofocus="true"></form:input>
     <form:errors path="username"></form:errors>

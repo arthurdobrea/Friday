@@ -1,11 +1,14 @@
 package net.arthur.springsecurityapp.model.dto;
 
+import net.arthur.springsecurityapp.model.User;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class UserDto {
+
+    private String username;
 
     private String firstName;
 
@@ -18,7 +21,8 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(String firstName, String lastName, String description, CommonsMultipartFile[] image) {
+    public UserDto(String username, String firstName, String lastName, String description, CommonsMultipartFile[] image) {
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
@@ -47,6 +51,26 @@ public class UserDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public CommonsMultipartFile[] getImage() {
+        return image;
+    }
+
+    public void setImage(CommonsMultipartFile[] image) {
+        this.image = image;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public User toUser(){
+        return new User(username,firstName,lastName,image[0].getBytes());
     }
 
     @Override

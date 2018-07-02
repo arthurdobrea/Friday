@@ -1,6 +1,7 @@
 package net.arthur.springsecurityapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
@@ -19,6 +20,7 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @JsonView(Views.Public.class)
     @Column(name = "username")
     private String username;
 
@@ -38,29 +40,33 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
-    @JsonIgnore
+    @JsonView(Views.Public.class)
     @Column(name = "image")
     private byte[] image;
 
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
-    private List<Event> events = new ArrayList<>(); //events in which user participates
+//    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
+//    private List<Event> events = new ArrayList<>(); //events in which user participates
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private List<Notification> notifications;
 
     public User() {
+    }
 
+    public User(String username, String firstname, String lastname, byte[] image) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.image = image;
     }
 
     public User(String username) {
@@ -185,62 +191,30 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-        if (!username.equals(user.username)) return false;
-        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
-        if (!email.equals(user.email)) return false;
-        if (!password.equals(user.password)) return false;
-        if (confirmPassword != null ? !confirmPassword.equals(user.confirmPassword) : user.confirmPassword != null)
-            return false;
-        if (!Arrays.equals(image, user.image)) return false;
-        if (subscriptionByEventType != null ? !subscriptionByEventType.equals(user.subscriptionByEventType) : user.subscriptionByEventType != null)
-            return false;
-        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
-        if (events != null ? !events.equals(user.events) : user.events != null) return false;
-        if (eventsOfAuthor != null ? !eventsOfAuthor.equals(user.eventsOfAuthor) : user.eventsOfAuthor != null)
-            return false;
-        return notifications != null ? notifications.equals(user.notifications) : user.notifications == null;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(firstname, user.firstname) &&
+                Objects.equals(lastname, user.lastname) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(confirmPassword, user.confirmPassword) &&
+                Arrays.equals(image, user.image) &&
+                Objects.equals(subscriptionByEventType, user.subscriptionByEventType) &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(eventsOfAuthor, user.eventsOfAuthor);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + (confirmPassword != null ? confirmPassword.hashCode() : 0);
+
+        int result = Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, subscriptionByEventType, roles, eventsOfAuthor);
         result = 31 * result + Arrays.hashCode(image);
-        result = 31 * result + (subscriptionByEventType != null ? subscriptionByEventType.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
-        result = 31 * result + (events != null ? events.hashCode() : 0);
-        result = 31 * result + (eventsOfAuthor != null ? eventsOfAuthor.hashCode() : 0);
-        result = 31 * result + (notifications != null ? notifications.hashCode() : 0);
         return result;
     }
 

@@ -22,9 +22,11 @@ public class AjaxController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/search/api/create")
     public List<Event> getDate(@RequestBody DateView search){
-        List<Event> events = new ArrayList<>();
-        events = eventService.getAllEvents();
-
+        System.out.println(search.getDate());
+//        String newDate = search.getDate().replace(' ','-');
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate dateTime = LocalDate.parse(newDate, formatter);
         return eventService.getAllEvents();
+        //TODO: CHANGE DATE FORMAT IN POJO
     }
 }

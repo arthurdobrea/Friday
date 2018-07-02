@@ -1,5 +1,7 @@
 package net.arthur.springsecurityapp.controller;
 
+import net.arthur.springsecurityapp.dao.EventDao;
+import net.arthur.springsecurityapp.dao.UserDao;
 import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
 import net.arthur.springsecurityapp.model.User;
@@ -10,7 +12,6 @@ import net.arthur.springsecurityapp.service.UserService;
 import net.arthur.springsecurityapp.util.Pages;
 import net.arthur.springsecurityapp.util.URLs;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.arthur.springsecurityapp.util.Pages.redirectFrom;
@@ -44,18 +44,25 @@ public class EventController {
 
     private final NotificationService notificationService;
 
+    private final EventDao eventDao;
+
+    private final UserDao userDao;
+
+
 
     @Autowired
-    public EventController(EventService eventService, UserService userService,NotificationService notificationService) {
+    public EventController(EventService eventService, UserService userService, NotificationService notificationService, EventDao eventDao, UserDao userDao) {
         this.eventService = eventService;
         this.userService = userService;
         this.notificationService = notificationService;
+        this.eventDao = eventDao;
+        this.userDao = userDao;
     }
 
 
-    @GetMapping("/{id}")
-    public String event(Model model, @PathVariable int id) {
-        final Event event = eventService.getEvent(id);
+    @GetMapping("/{title}")
+    public String event(Model model, @PathVariable String title) {
+        final Event event = eventDao.getEventByTitle(title);
         String string = event.getStart().toString();
         String stringMonth = string.substring(5, 7);
         Integer monthInt = Integer.parseInt(stringMonth);
@@ -67,6 +74,26 @@ public class EventController {
 
         return Pages.EVENT;
     }
+
+    @PostMapping("/type")
+    public String type(@RequestParam(required=false,name = "MASTER") String MASTER,
+                       @RequestParam(required=false,name = "MOVIE") String MOVIE,
+                       @RequestParam(required=false,name = "PARTY") String PARTY,
+                       @RequestParam(required=false,name = "OTHER") String OTHER,
+                       @RequestParam(required=false,name = "MUSIC") String MUSIC)
+    {
+        String resultString = "";
+        resultString +=MASTER;
+        resultString +=MOVIE;
+        resultString +=PARTY;
+        resultString +=OTHER;
+        resultString +=MUSIC;
+        String username = userService.findLoggedInUser().getUsername();
+        userDao.updateUserSubscription(resultString,username);
+
+        return Pages.INDEX;
+    }
+
 
     @GetMapping("/user/{username}")
     public String getUser(Model model, @PathVariable String username){
@@ -104,21 +131,23 @@ public class EventController {
     public String createEvent(@ModelAttribute(EVENT_DTO_ATTR) @Valid final EventDto eventDto,
                               final BindingResult bindingResult,
                               final Model model) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute(EVENT_DTO_ATTR, eventDto);
-//            model.addAttribute(EVENT_TYPES_ATTR, EVENT_TYPES);
-//            return Pages.CREATE_EVENT;
-//        }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(EVENT_DTO_ATTR, eventDto);
+            model.addAttribute(EVENT_TYPES_ATTR, EVENT_TYPES);
+            return Pages.CREATE_EVENT;
+        }
 
-        List<String> users = new ArrayList<>();
-        users.add("ArthurAD");
-        users.add("ArthurAD2");
+        List<User> users;
+        String eventType = eventDto.getEventType().view();
+        users = eventDao.getUsersByType(eventType);
+
         final Event event = eventDto.toEvent();
         event.setAuthor(userService.findLoggedInUser());
         eventService.saveEvent(event);
-        notificationService.sendToAllParticipants(users,event);
 
-        return redirectFrom(Pages.EVENT) + event.getId();
+        notificationService.sendToAllParticipants(users, event);
+
+        return redirectFrom(Pages.EVENT) + event.getTitle();
     }
 
     @GetMapping(URLs.FILTER)
