@@ -137,6 +137,7 @@ jQuery.fn.calendarPicker = function(options) {
                 var output = '';
 
                 data.reverse().forEach(function (event) {
+
                     output += `
                         <div class="event-content-block">
                             <div class="event-banner">
@@ -161,6 +162,7 @@ jQuery.fn.calendarPicker = function(options) {
                             </div>
                         </div>
                     `;
+
                 });
                 document.querySelector('.event-main-block').innerHTML = output;
                 console.log(data);

@@ -41,12 +41,6 @@ public class Event implements Serializable {
     @Column(name = "event_location")
     private String location;
 
-//    @ManyToMany
-//    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
-//    @BatchSize(size=1)
-//    private List<User> participants = new ArrayList<>();
-
     @JsonView(Views.Public.class)
     @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();

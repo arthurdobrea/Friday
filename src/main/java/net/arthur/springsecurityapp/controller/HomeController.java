@@ -27,8 +27,12 @@ public class HomeController {
 
     @GetMapping(URLs.INDEX)
     public String index(Model model) {
-//        model.addAttribute(ALL_EVENTS_ATTR, eventService.getAllEvents());
         model.addAttribute(USER_FORM_ATTR, new User());
+        if(userService.findLoggedInUser() == null) {
+            return Pages.INDEX;
+        }
+        String image = userService.findLoggedInUser().getImageBase64();
+        model.addAttribute("image",image);
         return Pages.INDEX;
     }
 

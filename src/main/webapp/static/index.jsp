@@ -52,7 +52,7 @@
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
                             <div class="user-top-avatar">
-                                <img src="${contextPath}/resources/img/user-avatar-default.png" alt="user-avatar">
+                                <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
@@ -121,15 +121,19 @@
                         </div>
                         <span>vkontakte</span>
                     </a>
-                    <form method="POST" action="${contextPath}/registration">
+                    <form:form method="POST" modelAttribute="userForm" action="${contextPath}/registration">
                         <div class="modal-input-fields">
                             <input type="email" placeholder="email">
-                            <input type="text" placeholder="логин">
-                            <input type="password" placeholder="пароль">
+                            <form:input type="text" path="username"  placeholder="логин" autofocus="true"/>
+                            <form:errors path="username"/>
+                            <form:input type="password" path="password"  placeholder="Password"/>
+                            <form:errors path="password"/>
+                            <form:input type="password" path="confirmPassword" placeholder="Confirm your password"/>
+                            <form:errors path="confirmPassword"/>
                         </div>
                         <span class="error-bottom">логин уже занят.</span> <!-- email уже зарегестрирован. --> <!-- пароль слишком короткий. -->
                         <button class="modal-send-button" onmousedown="return false" onselectstart="return false">отправить</button>
-                    </form>
+                    </form:form>
                     <a href="#" class="link-to-rules">правила портала.</a>
                 </div>
             </div> <!-- overlay-lighten-dialog-reg -->

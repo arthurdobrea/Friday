@@ -54,19 +54,18 @@ public class UserController {
     @GetMapping(URLs.REGISTRATION)
     public String registration(final Model model) {
         model.addAttribute(USER_FORM_ATTR, new User());
-
         return Pages.REGISTRATION;
     }
 
     @PostMapping(URLs.REGISTRATION)
     public String registration(@ModelAttribute(USER_FORM_ATTR) final User userForm, final BindingResult bindingResult) {
-       // userValidator.validate(userForm, bindingResult);
+        userValidator.validate(userForm, bindingResult);
 
-       // System.out.println(userForm.getPassword());
+        System.out.println(userForm.getPassword());
 
-//        if (bindingResult.hasErrors()) {
-//            return Pages.REGISTRATION;
-//        }
+        if (bindingResult.hasErrors()) {
+            return Pages.REGISTRATION;
+        }
 
         userService.save(userForm);
 
