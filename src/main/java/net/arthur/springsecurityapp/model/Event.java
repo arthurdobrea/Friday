@@ -205,17 +205,17 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", image=" + Arrays.toString(image) +
-                ", eventType=" + eventType +
-                ", author=" + author +
-                ", location='" + location + '\'' +
-                ", eventCreated=" + eventCreated +
-                ", start=" + start +
-                ", end=" + end +
-                ", description='" + description + '\'' +
+        return "{" +
+                "id:" + id +
+                ", title:'" + title + '\'' +
+                ", image[" + Arrays.toString(image) +
+                ", eventType:" + eventType +
+                ", author:" + author +
+                ", location:'" + location + '\'' +
+                ", eventCreated:" + eventCreated +
+                ", start:" + start +
+                ", end:" + end +
+                ", description:'" + description + '\'' +
                 '}';
     }
 }

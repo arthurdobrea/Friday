@@ -7,7 +7,7 @@ function connectToServer() {
         setConnected(true);
         console.log("Connected: " + frame);
         stompClient.subscribe('/user/queue/reply', function (servermessage) {//Callback when server responds
-            showServerBroadcast(JSON.parse(servermessage.body).messageContent, false);
+            showServerBroadcast(servermessage.body, false);
         });
     });
 }
@@ -50,6 +50,8 @@ function sendMessageToServer(messageForServer) {
  *                       client side javascript generated message.
  */
 function showServerBroadcast(servermessage, localMessage) {
+    alert(servermessage);
+    console.log(servermessage);
     var decoded = $("<div/>").html(servermessage).text();
     var event = '/event/' + servermessage;
     document.getElementById("response").setAttribute("href",event);

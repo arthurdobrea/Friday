@@ -40,6 +40,7 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
+    @Basic
     @JsonView(Views.Public.class)
     @Column(name = "image")
     private byte[] image;
