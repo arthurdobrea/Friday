@@ -49,8 +49,8 @@
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
                             <div class="top-menu-list">
-                                <a href="${contextPath}/event/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
-                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">настройки</a>
+                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
+                                <a href="${contextPath}/userSetting/${pageContext.request.userPrincipal.name}">настройки</a>
                                 <div class="sep-item">
                                     <div class="line"></div>
                                 </div>
@@ -252,7 +252,7 @@
         <div class="field-event-description block-style">
             <div class="input-title">описание</div>
             <div class="input-event-information">
-                <form:textarea name="description" path="description" class="input-style textarea-style"
+                <form:input name="description" path="description" class="input-style textarea-style"
                                placeholder="Опишите что будет ждать гостей"/>
             </div>
         </div> <!-- input-event-end -->

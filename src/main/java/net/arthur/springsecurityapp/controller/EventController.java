@@ -95,14 +95,6 @@ public class EventController {
     }
 
 
-    @GetMapping("/user/{username}")
-    public String getUser(Model model, @PathVariable String username){
-        User user = userService.findByUsername(username);
-        model.addAttribute(USER, user);
-        model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventsByAuthor(user.getId()));
-        return Pages.USER;
-    }
-
     @PostMapping(URLs.SEARCH)
     public String showEvents(Model model, @ModelAttribute("keyword") String keyword) {
         model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventByKeyWord(keyword));
@@ -124,6 +116,8 @@ public class EventController {
     public String createEvent(Model model) {
         model.addAttribute(EVENT_DTO_ATTR, new EventDto());
         model.addAttribute(EVENT_TYPES_ATTR, EVENT_TYPES);
+        String image = userService.findLoggedInUser().getImageBase64();
+        model.addAttribute("image",image);
         return Pages.CREATE_EVENT;
     }
 

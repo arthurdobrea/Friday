@@ -22,7 +22,6 @@ public class NotificationServiceImpls implements NotificationService {
 
     @Override
     public void sendToAllParticipants(List<User> users, Event eventForm) {
-        eventForm.setDescription("dsfwefwdwdfwdfwdf");
         eventForm.getAuthor().setRoles(null);
         eventForm.getAuthor().setEventsOfAuthor(null);
         for (User it : users) {

@@ -143,7 +143,7 @@ jQuery.fn.calendarPicker = function(options) {
                             <div class="event-banner">
                                 <a href="/event/${event.title}"><img src="data:image/jpeg;base64,${event.image}" alt="event-banner"></a>
                             </div>
-                            <div class="event-day">10<span>пн</span></div>
+                            <div class="event-day">${event.start}<span>пн</span></div>
                             <div class="event-title"><a href="#"><p id="myTitle">${event.title}</p></a></div>
                             <div class="event-date-information">
                                 <p class="event-date" id="myTime">#</p><span></span>
@@ -157,7 +157,7 @@ jQuery.fn.calendarPicker = function(options) {
                                 </div>
                                 <div class="event-sponsor-name">
                                     организатор
-                                    <a href="event/user/${event.author.username}" id="#user"><p>${event.author.username}</p></a>
+                                    <a href="/user/${event.author.username}" id="#user"><p>${event.author.username}</p></a>
                                 </div>
                             </div>
                         </div>

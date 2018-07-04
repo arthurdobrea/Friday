@@ -58,8 +58,8 @@
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
                             <div class="top-menu-list">
-                                <a href="${contextPath}/event/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
-                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">настройки</a>
+                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
+                                <a href="${contextPath}/userSetting/${pageContext.request.userPrincipal.name}">настройки</a>
                                 <div class="sep-item">
                                     <div class="line"></div>
                                 </div>

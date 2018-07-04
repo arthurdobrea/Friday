@@ -44,14 +44,14 @@
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
                             <div class="user-top-avatar">
-                                <img src="${contextPath}/resources/img/user-avatar-default.png" alt="user-avatar">
+                                <img src="data:image/jpeg;base64, ${event.author.getImageBase64()}" alt="event-banner"/>
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
                             <div class="top-menu-list">
-                                <a href="${contextPath}/event/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
-                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">настройки</a>
+                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
+                                <a href="${contextPath}/userSetting/${pageContext.request.userPrincipal.name}">настройки</a>
                                 <div class="sep-item">
                                     <div class="line"></div>
                                 </div>
@@ -181,7 +181,7 @@
             <div class="chat-title">обсуждение события</div>
             <div class="chat-content">
                 <div class="user-message">
-                    <div class="user-avatar"><img src="${contextPath}/resources/img/user-avatar-1.png" alt="user-avatar">
+                    <div class="user-avatar"> <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
                     </div>
                     <div class="user-message-content">
                         <p class="chat-username">${event.title}</p>
@@ -200,12 +200,12 @@
         <div class="event-page event-content">
             <div class="event-sponsor">
                 <div class="event-user-avatar">
-                    <img src="${contextPath}/resources/img/user-avatar-1.png" alt="user-avatar">
+                    <img src="data:image/jpeg;base64, ${event.author.getImageBase64()}" alt="event-banner"/>
                 </div>
                 <div class="event-sponsor-name">
                     организатор
                     <span>подписаться 128 МЛН</span>
-                    <a href="#"><p>${event.title}</p></a>
+                    <a href="${contextPath}/${event.author.username}"><p>${event.author.username}</p></a>
                 </div>
                 <div class="event-more-options-icon" onclick="showContent('.event-more-options-icon','.event-option-menu');">
                     <img src="${contextPath}/resources/img/more-options-icon.png" alt="more-option-icon">
@@ -231,7 +231,7 @@
                 <div class="icons">
                     <img src="${contextPath}/resources/img/calendar-icon.png" alt="calendar-icon">
                 </div>
-                <span>${event.start.toString().substring(8,10)} ${month.toString()}</span>
+                <span>${event.start.toString().substring(8,10)} ${month.toString()} - ${event.end.toString().substring(8,10)} ${month.toString()} </span>
             </div>
             <div class="event-information">
                 <div class="icons">

@@ -45,14 +45,14 @@
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
                             <div class="user-top-avatar">
-                                <img src="${contextPath}/resources/img/user-avatar-default.png" alt="user-avatar">
+                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
                             <div class="top-menu-list">
-                                <a href="${contextPath}/event/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
-                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">настройки</a>
+                                <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}">мой аккаунт</a>
+                                <a href="${contextPath}/userSetting/${pageContext.request.userPrincipal.name}">настройки</a>
                                 <div class="sep-item">
                                     <div class="line"></div>
                                 </div>
@@ -194,7 +194,7 @@
                                 <div class="hover-bg">
                                     <form:input type="file" path="image" name="image" class="upload-avatar" accept=".jpg, .jpeg, .png"/>
                                     <div class="hover-label">
-                                        <img src="${contextPath}/resources/img/photo-camera-icon.png" alt="pic-upload-icon">
+                                        <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
                                     </div>
                                 </div>
                             </div>

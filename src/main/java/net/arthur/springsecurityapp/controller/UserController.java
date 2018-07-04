@@ -102,6 +102,16 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}")
+    public String getUser(Model model, @PathVariable String username){
+        User user = userService.findByUsername(username);
+        model.addAttribute(USER, user);
+        model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventsByAuthor(user.getId()));
+        String image = userService.findLoggedInUser().getImageBase64();
+        model.addAttribute("image",image);
+        return Pages.USER;
+    }
+
+    @GetMapping("/userSetting/{username}")
     public String userSettings(Model model, @PathVariable String username) {
         model.addAttribute("userDto", new UserDto());
         List<String> types = new ArrayList<>();
@@ -117,6 +127,8 @@ public class UserController {
         types.add("RAP");
         types.add("BOARDGAMES");
         model.addAttribute("types",types);
+        String image = userService.findLoggedInUser().getImageBase64();
+        model.addAttribute("image",image);
         return Pages.USERSETTINGS;
     }
 
