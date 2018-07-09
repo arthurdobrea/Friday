@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
@@ -49,6 +50,9 @@ public class Event implements Serializable {
     @Column(name = "timebegin")
     private LocalDateTime start;
 
+    @Column(name = "datebegin")
+    private LocalDate startDate;
+
     @JsonView(Views.Public.class)
     @Column(name = "timeend")
     private LocalDateTime end;
@@ -67,24 +71,25 @@ public class Event implements Serializable {
     }
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
-                 String description) {
+                 String description,LocalDate startDate) {
         this(title);
         this.eventType = eventType;
         this.location = location;
         this.start = timeBegin;
         this.end = timeEnd;
         this.description = description;
+        this.startDate = startDate;
     }
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
-                 String description, byte[] image) {
-        this(title, eventType, location, timeBegin, timeEnd, description);
+                 String description, byte[] image, LocalDate startDate) {
+        this(title, eventType, location, timeBegin, timeEnd, description,startDate);
         this.image = image;
     }
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
-                 String description, byte[] image, User author) {
-        this(title, eventType, location, timeBegin, timeEnd, description, image);
+                 String description, byte[] image, User author,LocalDate startDate) {
+        this(title, eventType, location, timeBegin, timeEnd, description, image, startDate);
         this.author = author;
     }
 
@@ -172,6 +177,14 @@ public class Event implements Serializable {
         this.description = description;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -185,6 +198,7 @@ public class Event implements Serializable {
                 Objects.equals(location, event.location) &&
                 Objects.equals(eventCreated, event.eventCreated) &&
                 Objects.equals(start, event.start) &&
+                Objects.equals(startDate, event.startDate) &&
                 Objects.equals(end, event.end) &&
                 Objects.equals(description, event.description);
     }
@@ -192,7 +206,7 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(id, title, eventType, author, location, eventCreated, start, end, description);
+        int result = Objects.hash(id, title, eventType, author, location, eventCreated, start, startDate, end, description);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }

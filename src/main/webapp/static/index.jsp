@@ -213,7 +213,7 @@
         </div>
     </div> <!-- event-calendar-block -->
     <div class="search-block">
-        <form:form class="form-search" action="${contextPath}/search" method="post">
+        <form:form class="form-search" action="${contextPath}/event/search" method="post">
             <input autofocus class="input-search" type="text" placeholder="Пойск по названию.." name="keyword" autocomplete="off">
             <button class="submit-search-btn" type="submit"><img src="${contextPath}/resources/img/search-icon.png" alt="search-icon"></button>
         </form:form>

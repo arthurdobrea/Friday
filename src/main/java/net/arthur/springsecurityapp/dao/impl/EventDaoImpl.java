@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -90,10 +91,17 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getEventByDate(LocalDateTime date) {
+    public List<Event> getEventsByDate(LocalDateTime date) {
 //        String patern = "%"+date+"%";
-        return entityManager.createQuery("SELECT e FROM Event e where e.start LIKE :patern",Event.class)
-                .setParameter("patern","%"+ date +"%")
+        return entityManager.createQuery("SELECT e FROM Event e where e.start = :patern",Event.class)
+                .setParameter("patern",date)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByDate(LocalDate date) {
+        return entityManager.createQuery("SELECT e FROM Event e where e.startDate = :patern",Event.class)
+                .setParameter("patern",date)
                 .getResultList();
     }
 

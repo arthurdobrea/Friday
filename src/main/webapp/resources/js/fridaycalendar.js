@@ -121,7 +121,22 @@ jQuery.fn.calendarPicker = function(options) {
             //   d.setFullYear(i);
             //   if (d.getYear() == calendar.currentDate.getYear())
             //    return calendar.currentDate.getFullYear() + ' ' + calendar.currentDate.getMonth() + ' ' + calendar.currentDate.getDate();
-            return calendar.currentDate.getFullYear() + ' ' + calendar.currentDate.getMonth() + ' ' + calendar.currentDate.getDate();
+            let year = calendar.currentDate.getFullYear();
+            let month = calendar.currentDate.getMonth() + 1;
+            let day = calendar.currentDate.getDate();
+            let date;
+            if (month < 10) {
+                date = year + '-0' + month;
+            } else {
+                date = year + '-' + month;
+            }
+            if (day < 10) {
+                date += '-0' + day;
+            } else {
+                date += '-' + day;
+            }
+
+            return date;
         }
         var dateFormat  = JSONhandler();
         $('#fri-loader').addClass('loader-body');

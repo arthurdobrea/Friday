@@ -5,6 +5,7 @@ import net.arthur.springsecurityapp.model.Event;
 import net.arthur.springsecurityapp.model.EventType;
 import net.arthur.springsecurityapp.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,9 @@ public interface EventDao {
 
     List<Event> getEventByKeyWord(String keyword);
 
-    List<Event> getEventByDate(LocalDateTime date);
+    List<Event> getEventsByDate(LocalDateTime date);
+
+    List<Event> getEventsByDate(LocalDate date);
 
     List<Event> getEventById(Long username);
 

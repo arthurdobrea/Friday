@@ -63,6 +63,7 @@ CREATE TABLE events_tags (
   FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
+ALTER table events add datebegin date
 
 INSERT INTO roles VALUES (1,'ROLE_USER');
 INSERT INTO roles VALUES (2,'ROLE_ADMIN');

@@ -123,6 +123,6 @@ public class EventDto implements Serializable {
     }
 
     public Event toEvent() {
-        return new Event(title, eventType, location, LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime), description, image[0].getBytes());
+        return new Event(title, eventType, location, LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime), description, image[0].getBytes(),startDate);
     }
 }

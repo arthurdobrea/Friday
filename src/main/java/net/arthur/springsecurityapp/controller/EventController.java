@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
@@ -29,11 +31,11 @@ public class EventController {
 
     private static final String ALL_EVENTS_ATTR = "allEvents";
 
-    private static final String USER = "user";
-
     private static final String EVENT_DTO_ATTR = "eventDto";
 
     private static final String EVENT_TYPES_ATTR = "eventTypes";
+
+    private static final String USER_FORM_ATTR = "userForm";
 
     private static final EventType[] EVENT_TYPES = EventType.values();
 
@@ -75,42 +77,26 @@ public class EventController {
         return Pages.EVENT;
     }
 
-    @PostMapping("/type")
-    public String type(@RequestParam(required=false,name = "MASTER") String MASTER,
-                       @RequestParam(required=false,name = "MOVIE") String MOVIE,
-                       @RequestParam(required=false,name = "PARTY") String PARTY,
-                       @RequestParam(required=false,name = "OTHER") String OTHER,
-                       @RequestParam(required=false,name = "MUSIC") String MUSIC)
-    {
-        String resultString = "";
-        resultString +=MASTER;
-        resultString +=MOVIE;
-        resultString +=PARTY;
-        resultString +=OTHER;
-        resultString +=MUSIC;
-        String username = userService.findLoggedInUser().getUsername();
-        userDao.updateUserSubscription(resultString,username);
 
-        return Pages.INDEX;
-    }
 
 
     @PostMapping(URLs.SEARCH)
     public String showEvents(Model model, @ModelAttribute("keyword") String keyword) {
         model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventByKeyWord(keyword));
+        model.addAttribute(USER_FORM_ATTR, new User());
         return Pages.INDEX;
     }
 
-    @GetMapping(URLs.CALENDAR)
-    public String calendar(){
-        return Pages.CALENDAR;
-    }
-
-    @PostMapping(URLs.CALENDAR)
-    public String calendar(@RequestParam String wtf){
-        System.out.println(wtf);
-        return Pages.CALENDAR;
-    }
+//    @GetMapping(URLs.CALENDAR)
+//    public String calendar(){
+//        return Pages.CALENDAR;
+//    }
+//
+//    @PostMapping(URLs.CALENDAR)
+//    public String calendar(@RequestParam String wtf){
+//        System.out.println(wtf);
+//        return Pages.CALENDAR;
+//    }
 
     @GetMapping(URLs.CREATE)
     public String createEvent(Model model) {
@@ -137,6 +123,9 @@ public class EventController {
 
         final Event event = eventDto.toEvent();
         event.setAuthor(userService.findLoggedInUser());
+        LocalDateTime dateTime = event.getStart();
+        LocalDate date = dateTime.toLocalDate();
+        event.setStartDate(date);
         eventService.saveEvent(event);
 
         notificationService.sendToAllParticipants(users, event);
@@ -147,12 +136,7 @@ public class EventController {
     @GetMapping(URLs.FILTER)
     public String filterEvents(final Model model, @RequestParam String tag) {
         model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventsByType(EventType.valueOf(tag.toUpperCase())));
-        return Pages.INDEX;
-    }
-
-    @GetMapping(URLs.INDEX)
-    public String index(Model model) {
-        model.addAttribute(ALL_EVENTS_ATTR, eventService.getAllEvents());
+        model.addAttribute(USER_FORM_ATTR, new User());
         return Pages.INDEX;
     }
 

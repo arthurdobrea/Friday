@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -56,9 +56,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByDate(LocalDateTime date) {
-        eventDao.getEventByDate(date);
-        return null;
+    public List<Event> geteventsbydate(LocalDateTime date) {
+        return  eventDao.getEventsByDate(date);
     }
 
+    @Override
+    public List<Event> geteventsbydate(LocalDate date) {
+        return eventDao.getEventsByDate(date);
+    }
 }

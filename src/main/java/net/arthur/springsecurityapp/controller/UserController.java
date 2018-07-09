@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +135,25 @@ public class UserController {
         User user = userDto.toUser();
         userDao.updateUserInformation(user.getFirstname(),user.getUsername(),user.getLastname(),user.getImage());
         return Pages.USERSETTINGS;
+    }
+
+    @PostMapping("/type")
+    public String type(@RequestParam(required=false,name = "MASTER") String MASTER,
+                       @RequestParam(required=false,name = "MOVIE") String MOVIE,
+                       @RequestParam(required=false,name = "PARTY") String PARTY,
+                       @RequestParam(required=false,name = "OTHER") String OTHER,
+                       @RequestParam(required=false,name = "MUSIC") String MUSIC)
+    {
+        String resultString = "";
+        resultString +=MASTER;
+        resultString +=MOVIE;
+        resultString +=PARTY;
+        resultString +=OTHER;
+        resultString +=MUSIC;
+        String username = userService.findLoggedInUser().getUsername();
+        userDao.updateUserSubscription(resultString,username);
+
+        return Pages.INDEX;
     }
 
 }
