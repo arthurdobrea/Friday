@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class NotificationServiceImpls implements NotificationService {
         eventForm.getAuthor().setEventsOfAuthor(null);
         for (User it : users) {
             template.convertAndSendToUser(it.getUsername(), "/queue/reply",
-                    eventForm.toString());
+                    eventForm.toJson());
         }
     }
 }

@@ -1,9 +1,10 @@
 package net.arthur.springsecurityapp.model;
 
 
-
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -71,7 +72,7 @@ public class Event implements Serializable {
     }
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
-                 String description,LocalDate startDate) {
+                 String description, LocalDate startDate) {
         this(title);
         this.eventType = eventType;
         this.location = location;
@@ -83,12 +84,12 @@ public class Event implements Serializable {
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
                  String description, byte[] image, LocalDate startDate) {
-        this(title, eventType, location, timeBegin, timeEnd, description,startDate);
+        this(title, eventType, location, timeBegin, timeEnd, description, startDate);
         this.image = image;
     }
 
     public Event(String title, EventType eventType, String location, LocalDateTime timeBegin, LocalDateTime timeEnd,
-                 String description, byte[] image, User author,LocalDate startDate) {
+                 String description, byte[] image, User author, LocalDate startDate) {
         this(title, eventType, location, timeBegin, timeEnd, description, image, startDate);
         this.author = author;
     }
@@ -215,7 +216,7 @@ public class Event implements Serializable {
     public String toString() {
         return "{" +
                 "id:" + id +
-                ", title:'" + title + '\'' +
+                ", title:" + title + '\'' +
                 ", image[" + Arrays.toString(image) +
                 ", eventType:" + eventType +
                 ", author:" + author +
@@ -226,4 +227,20 @@ public class Event implements Serializable {
                 ", description:'" + description + '\'' +
                 '}';
     }
+
+    public JSONObject toJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("title", title);
+        obj.put("image", image);
+        obj.put("eventType", eventType);
+        obj.put("author", author.getUsername());
+        obj.put("location", location);
+        obj.put("eventCreated", eventCreated);
+        obj.put("start", start);
+        obj.put("end", end);
+        obj.put("description", description);
+        return obj;
+    }
+
 }
