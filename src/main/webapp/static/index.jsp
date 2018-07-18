@@ -51,10 +51,10 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
-                            <%--<div class="user-top-avatar" alt="KEK" style="background-image: url(data:image/jpeg;base64,${image})"></div>--%>
-                            <div class="user-top-avatar">
-                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
-                            </div>
+                            <%--<div class="user-top-avatar">--%>
+                                <%--<img src="data:image/jpeg;base64,${image}" alt="event-banner"/>--%>
+                            <%--</div>--%>
+                            <div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
@@ -79,9 +79,7 @@
                                     <span>уведомления о событиях</span>
                                     <a href="#">настройки</a>
                                 </div>
-                                <div class="notify-block">
-
-                                </div>
+                                <div class="notify-body"></div>
                                 <div class="bottom-notify-footer">
                                     <a href="#">показать все</a>
                                 </div>
@@ -214,7 +212,7 @@
         </div>
     </div> <!-- event-calendar-block -->
     <div class="search-block">
-        <form:form class="form-search" action="${contextPath}/search" method="post">
+        <form:form class="form-search" action="${contextPath}/event/search" method="post">
             <input class="input-search" type="text" placeholder="Пойск по названию.." name="keyword" autocomplete="off" autofocus="true">
             <button class="submit-search-btn" type="submit"><img src="${contextPath}/resources/img/search-icon.png" alt="search-icon"></button>
         </form:form>

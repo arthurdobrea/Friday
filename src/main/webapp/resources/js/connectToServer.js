@@ -7,7 +7,7 @@ function connectToServer() {
         setConnected(true);
         console.log("Connected: " + frame);
         stompClient.subscribe('/user/queue/reply', function (servermessage) {//Callback when server responds
-           showServerBroadcast(JSON.stringify(servermessage.body), false);
+            showServerBroadcast(servermessage.body, false);
         });
     });
 }
@@ -50,27 +50,28 @@ function sendMessageToServer(messageForServer) {
  *                       client side javascript generated message.
  */
 function showServerBroadcast(servermessage, localMessage) {
-    alert(servermessage);
-    console.log(servermessage);
-    var decoded = $("<div/>").html(servermessage).text();
-    var event = '/event/' + servermessage;
-    document.getElementById("response").setAttribute("href",event);
-    var tmp = "";
-    var serverResponse = document.getElementById("response");
-    var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
-
-    if (localMessage) {
-        p.style.color = '#006600';
-        tmp = "<span class='glyphicon glyphicon-dashboard'></span> " + decoded + ")";
-    } else {
-        p.style.color = '##ffffff';
-        tmp = " <span class='glyphicon glyphicon-arrow-right'></span> " + decoded;
+    function monthName(mon) {
+        return ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'][mon - 1];
     }
-    //Assigning the decoded HTML to the <p> element
-    p.innerHTML = tmp;
-    serverResponse.appendChild(p);
-
+    // alert(servermessage);
+    user_notify = JSON.parse(servermessage);
+    let notify_output = '';
+    [user_notify].map(function (notify) {
+        return notify_output += `
+            <div class="notify-post-item">
+				<div class="user-profile-avatar" style="background-image: url(data:image/jpeg;base64,${notify.image})"></div>
+				<div class="notify-content">
+						Организатор <a href="#">${notify.author}</a> опубликовал новое событие: <a href="#">${notify.title}</a>
+					<div class="post-date">
+						
+					</div>${notify.eventCreated[3]}:${notify.eventCreated[4]} ${notify.eventCreated[2]} ${monthName(notify.eventCreated.slice(1, 2))} ${notify.eventCreated[0]}
+				</div>
+				<div class="notify-event-banner" style="background-image: url(data:image/jpeg;base64,${notify.image})"></div>
+			</div>
+        `;
+    });
+    document.querySelector('.notify-body').innerHTML = notify_output;
+    console.log(user_notify);
 }
 
 /**

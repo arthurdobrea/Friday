@@ -44,10 +44,10 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
-                            <%--<div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>--%>
-                            <div class="user-top-avatar">
-                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
-                            </div>
+                            <div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>
+                            <%--<div class="user-top-avatar">--%>
+                                <%--<img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>--%>
+                            <%--</div>--%>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>

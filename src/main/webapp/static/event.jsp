@@ -192,34 +192,45 @@
             </div>
             <div class="chat-input-message">
                 <div class="input-message"><textarea id="input-message" name="user-message-input" cols="1" rows="1" placeholder="Введите сообщение.."></textarea></div>
-                <div class="btn-send-message"><button type="submit"><img src="${contextPath}/resources/img/send-icon.png" alt="send-button-icon"></button></div>
+                <div class="btn-send-message"><button type="submit" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"><img src="${contextPath}/resources/img/send-icon.png" alt="send-button-icon"></button></div>
             </div>
         </div> <!-- chat-block -->
-        <div class="event-page event-content">
+        <div class="event-page">
             <div class="event-sponsor">
-                <div class="event-user-avatar">
-                    <img src="data:image/jpeg;base64, ${event.author.getImageBase64()}" alt="event-banner"/>
-                </div>
-                <div class="event-sponsor-name">
-                    организатор
-                    <form action="${contextPath}/user/subscribe/${event.author.username}&${event.title}" method="post"><button type="submit">подписаться</button></form>
-                    <a href="${contextPath}/${event.author.username}"><p>${event.author.username}</p></a>
-                </div>
-                <div class="event-more-options-icon" onclick="showContent('.event-more-options-icon','.event-option-menu');">
-                    <img src="${contextPath}/resources/img/more-options-icon.png" alt="more-option-icon">
-                </div>
-                <div class="event-option-menu">
-                    <a href="#">Редактировать событие</a>
-                    <div class="sep-item">
-                        <div class="line"></div>
+                <a href="#">
+                    <div class="event-user-avatar">
+                        <img src="data:image/jpeg;base64, ${event.author.getImageBase64()}" alt="event-banner"/>
                     </div>
-                    <a href="#">Удалить событие</a>
+                    <%--<div class="event-user-avatar" style="background-image: url(data:image/jpeg;base64, ${user.getImageBase64()})"></div></a>--%>
+                <div class="event-sponsor-top-info">
+                    <div class="user-top-content">
+                        <div class="subscribe-btn-top">
+                            Организатор
+                            <form action="${contextPath}/user/subscribe/${event.author.username}&${event.title}" method="post"><button type="submit">подписаться</button></form>
+                            <a href="${contextPath}/${event.author.username}"><p>${event.author.username}</p></a>
+                            <%--<span class="subscribe-btn">подписаться 128 МЛН</span>--%>
+                        </div>
+                        <div class="event-more-option-icon" onclick="showContent('.event-more-option-icon','.event-option-menu');">
+                            <img src="${contextPath}/resources/img/more-options-icon.png" alt="more-option-icon">
+                            <div class="event-option-menu">
+                                <a href="#">Редактировать событие</a>
+                                <div class="sep-item">
+                                    <div class="line"></div>
+                                </div>
+                                <a href="#">Удалить событие</a>
+                            </div>
+                        </div>
+                    </div>
+                    <%--<a href="#"><div class="event-user-name-top">--%>
+                        <%--<p>${event.author.username}</p>--%>
+                    <%--</div></a>--%>
                 </div>
             </div>
             <a href="#">
                 <div class="event-banner">
                     <img src="data:image/jpeg;base64, ${event.getImageBase64()}" alt="event-banner"/>
                 </div>
+                <%--<div class="event-banner" style="background-image: url(data:image/jpeg;base64,${event.getImageBase64()})"></div></a>--%>
             <div class="event-information">
                 <div class="category-link">
                     категория: <a href="${contextPath}/">#Тренинги</a>

@@ -121,23 +121,22 @@ jQuery.fn.calendarPicker = function(options) {
             //   d.setFullYear(i);
             //   if (d.getYear() == calendar.currentDate.getYear())
             //    return calendar.currentDate.getFullYear() + ' ' + calendar.currentDate.getMonth() + ' ' + calendar.currentDate.getDate();
-            let year = calendar.currentDate.getFullYear();
-            let month = calendar.currentDate.getMonth() + 1;
-            let day = calendar.currentDate.getDate();
-            let date;
-            if (month < 10) {
-                date = year + '-0' + month;
-            } else {
-                date = year + '-' + month;
+                let year = calendar.currentDate.getFullYear();
+                let month = calendar.currentDate.getMonth() + 1;
+                let day = calendar.currentDate.getDate();
+                let date;
+                if (month < 10) {
+                    date = year + '-0' + month;
+                } else {
+                    date = year + '-' + month;
+                }
+                if (day < 10) {
+                    date += '-0' + day;
+                } else {
+                    date += '-' + day;
+                }
+                return date;
             }
-            if (day < 10) {
-                date += '-0' + day;
-            } else {
-                date += '-' + day;
-            }
-
-            return date;
-        }
         var dateFormat  = JSONhandler();
         $('#fri-loader').addClass('loader-body');
         function monthName(mon) {
@@ -151,29 +150,31 @@ jQuery.fn.calendarPicker = function(options) {
             dataType : 'json',
             success : function(data) {
                 $('#fri-loader').removeClass('loader-body');
-                var output = '';
+                let output = '';
 
                 data.reverse().forEach(function (event) {
                     output += `
                         <div class="event-content-block">
-                            <div class="event-banner">
-                                <a href="/event/${event.title}"><img src="data:image/jpeg;base64,${event.image}" alt="event-banner"></a>
-                            </div>
-                            <div class="event-day">${event.start}<span>пн</span></div>
-                            <div class="event-title"><a href="#"><p id="myTitle">${event.title}</p></a></div>
-                            <div class="event-date-information">
-                                <p class="event-date" id="myTime">#</p><span></span>
-                                <p class="event-place" id="myPlace">${event.location}</p><span></span>
-                                <p class="event-city">Кишинёв</p>
-                            </div>
-                            <div class="event-mini-information">${event.description}</div>
-                            <div class="event-sponsor">
-                                <div class="event-user-avatar">
-                                    <img src="data:image/jpeg;base64,${event.author.image}" alt="user-avatar">
+                            <a href="/event/${event.title}">
+                                <div class="event-banner" style="background-image: url(data:image/jpeg;base64,${event.image})"></div>
+                            </a>
+                            <div class="date-content">
+                                <div class="event-day">${event.start.slice(2, 3)}<span>${monthName(event.start.slice(1, 2))}</span></div>
+                                <div class="event-content">
+                                    <div class="event-title"><a href="/event/${event.title}"><p id="myTitle">${event.title}</p></a></div>
+                                    <div class="event-place">
+                                        <p id="myPlace">${event.location}</p>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="event-mini-description">
+                                <p>${event.description}</p>
+                            </div>
+                            <div class="event-sponsor">
+                                <a href="#"><div class="event-user-avatar" style="background-image: url(data:image/jpeg;base64,${event.author.image})"></div></a>
                                 <div class="event-sponsor-name">
-                                    организатор
-                                    <a href="/user/${event.author.username}" id="#user"><p>${event.author.username}</p></a>
+                                    Организатор
+                                    <a href="/user/${event.author.username}"><p>${event.author.username}</p></a>
                                 </div>
                             </div>
                         </div>
@@ -192,13 +193,12 @@ jQuery.fn.calendarPicker = function(options) {
             }
         });
 
-    }
+    };
 function display(data) {
     var json = "<h4>Ajax Response</h4><pre>"
         + JSON.stringify(data, null, 4) + "</pre>";
     $('#feedback').html(json);
     document.getElementById('myTitle').innerHTML = data[0].title;
-
 }
 
     theDiv.click(function(ev) {
