@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.arthur.springsecurityapp.util.Pages.redirectFrom;
+
 @Controller
 public class UserController {
 
@@ -57,8 +59,6 @@ public class UserController {
     @PostMapping(URLs.REGISTRATION)
     public String registration(@ModelAttribute(USER_FORM_ATTR) final User userForm, final BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
-
-        System.out.println(userForm.getPassword());
 
         if (bindingResult.hasErrors()) {
             return Pages.REGISTRATION;
@@ -135,6 +135,14 @@ public class UserController {
         User user = userDto.toUser();
         userDao.updateUserInformation(user.getFirstname(),user.getUsername(),user.getLastname(),user.getImage());
         return Pages.USERSETTINGS;
+    }
+
+    @PostMapping("/user/subscribe/{subscribedOnUser}&{title}")
+    public String subscribeOnUser(@PathVariable String subscribedOnUser,
+                                  @PathVariable String title){
+        String subscribedUser = userService.findLoggedInUser().getUsername().concat(",");
+        userService.updateSubscription(subscribedUser,subscribedOnUser);
+        return redirectFrom(Pages.EVENT) + title;
     }
 
     @PostMapping("/type")

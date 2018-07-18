@@ -10,5 +10,5 @@ public interface UserService {
 
     User findLoggedInUser();
 
-    User update(User user);
+    void updateSubscription(String subscribedUser, String subscribedOnUser);
 }

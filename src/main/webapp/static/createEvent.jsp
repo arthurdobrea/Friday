@@ -42,8 +42,9 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
+                            <%--<div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${image})"></div>--%>
                             <div class="user-top-avatar">
-                                <img src="${contextPath}/resources/img/user-avatar-default.png" alt="user-avatar">
+                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
@@ -62,7 +63,7 @@
                         </div>
                         <div class="notification-bell-nav" onclick="showContent('.notification-bell-nav', '.top-notify-content');" title="Уведомления" onmousedown="return false" onselectstart="return false">
                             <div class="notification-btn">
-                                <img src="${contextPath}/resources/img/notify-bell.png" alt="notify-btn">
+                                <img src="${contextPath}/resources/img/white-notify-bell.png" alt="notify-btn">
                             </div>
                             <div class="top-notify-content">
                                 <div class="top-notify-header">
@@ -252,7 +253,7 @@
         <div class="field-event-description block-style">
             <div class="input-title">описание</div>
             <div class="input-event-information">
-                <form:input name="description" path="description" class="input-style textarea-style"
+                <form:textarea name="description" path="description" class="input-style textarea-style"
                                placeholder="Опишите что будет ждать гостей"/>
             </div>
         </div> <!-- input-event-end -->

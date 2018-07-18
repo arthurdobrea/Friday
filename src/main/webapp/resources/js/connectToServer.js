@@ -7,7 +7,7 @@ function connectToServer() {
         setConnected(true);
         console.log("Connected: " + frame);
         stompClient.subscribe('/user/queue/reply', function (servermessage) {//Callback when server responds
-            showServerBroadcast(servermessage.body, false);
+           showServerBroadcast(JSON.stringify(servermessage.body), false);
         });
     });
 }

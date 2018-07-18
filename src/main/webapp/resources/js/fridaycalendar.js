@@ -140,7 +140,9 @@ jQuery.fn.calendarPicker = function(options) {
         }
         var dateFormat  = JSONhandler();
         $('#fri-loader').addClass('loader-body');
-        // console.log(dateFormat);
+        function monthName(mon) {
+            return ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'][mon - 1];
+        }
         $.ajax({
             type : "POST",
             contentType : "application/json",
@@ -152,7 +154,6 @@ jQuery.fn.calendarPicker = function(options) {
                 var output = '';
 
                 data.reverse().forEach(function (event) {
-
                     output += `
                         <div class="event-content-block">
                             <div class="event-banner">
@@ -177,7 +178,6 @@ jQuery.fn.calendarPicker = function(options) {
                             </div>
                         </div>
                     `;
-
                 });
                 document.querySelector('.event-main-block').innerHTML = output;
                 console.log(data);
@@ -193,8 +193,6 @@ jQuery.fn.calendarPicker = function(options) {
         });
 
     }
-
-
 function display(data) {
     var json = "<h4>Ajax Response</h4><pre>"
         + JSON.stringify(data, null, 4) + "</pre>";

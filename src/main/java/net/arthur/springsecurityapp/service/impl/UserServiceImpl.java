@@ -62,7 +62,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User update(User user) {
-        return entityManager.merge(user);
+    public void updateSubscription(String subscribedUser,String subscribedOnUser) {
+        String subscribers = entityManager.createQuery("SELECT u.subscribedUsers FROM User u where u.username = :subscribedOnUser",String.class)
+                .setParameter("subscribedOnUser",subscribedOnUser)
+                .getSingleResult() + subscribedUser;
+
+
+        entityManager.createQuery("update User u set u.subscribedUsers = :subscribers where u.username = :subscribedOnUser")
+                .setParameter("subscribers",subscribers)
+                .setParameter("subscribedOnUser",subscribedOnUser)
+                .executeUpdate();
     }
 }

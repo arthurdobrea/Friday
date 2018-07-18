@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Friday.md | Добавить событие</title>
+    <title>${event.title}</title>
     <meta name="description" content="thx god it's friday">
     <meta mame="author" content="SRL FRIDAY">
     <link rel="stylesheet" href="${contextPath}/resources/css/main.css">
@@ -46,6 +46,7 @@
                             <div class="user-top-avatar">
                                 <img src="data:image/jpeg;base64, ${event.author.getImageBase64()}" alt="event-banner"/>
                             </div>
+                            <%--<div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>--%>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
                             </div>
@@ -63,7 +64,7 @@
                         </div>
                         <div class="notification-bell-nav" onclick="showContent('.notification-bell-nav', '.top-notify-content');" title="Уведомления" onmousedown="return false" onselectstart="return false">
                             <div class="notification-btn">
-                                <img src="${contextPath}/resources/img/notify-bell.png" alt="notify-btn">
+                                <img src="${contextPath}/resources/img/white-notify-bell.png" alt="notify-btn">
                             </div>
                             <div class="top-notify-content">
                                 <div class="top-notify-header">
@@ -180,21 +181,18 @@
         <div class="chat-block">
             <div class="chat-title">обсуждение события</div>
             <div class="chat-content">
-                <div class="user-message">
-                    <div class="user-avatar"> <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
-                    </div>
-                    <div class="user-message-content">
-                        <p class="chat-username">${event.title}</p>
-                        <p class="chat-message">
-                            Добро пожаловать!
-                        </p>
-                        <span>19:00</span>
+                <div class="chat-user-message">
+                    <a href="#"><div class="chat-user-avatar" style="background-image: url(data:image/jpeg;base64, ${user.getImageBase64()})"></div></a>
+                    <div class="chat-message-content">
+                        <a href="#"><p class="chat-user-name">${event.title}</p></a>
+                        <p class="chat-message">Пользователя сообщение..</p>
+                        <p class="chat-post-time">19:00</p>
                     </div>
                 </div>
             </div>
             <div class="chat-input-message">
-                <textarea class="input-message" name="textinput" cols="1" rows="1" placeholder="Введите сообщение.."></textarea>
-                <button type="button" class="send-message"><img src="${contextPath}/resources/img/send-button.png" alt="send-button"></button>
+                <div class="input-message"><textarea id="input-message" name="user-message-input" cols="1" rows="1" placeholder="Введите сообщение.."></textarea></div>
+                <div class="btn-send-message"><button type="submit"><img src="${contextPath}/resources/img/send-icon.png" alt="send-button-icon"></button></div>
             </div>
         </div> <!-- chat-block -->
         <div class="event-page event-content">
@@ -204,7 +202,7 @@
                 </div>
                 <div class="event-sponsor-name">
                     организатор
-                    <span>подписаться 128 МЛН</span>
+                    <form action="${contextPath}/user/subscribe/${event.author.username}&${event.title}" method="post"><button type="submit">подписаться</button></form>
                     <a href="${contextPath}/${event.author.username}"><p>${event.author.username}</p></a>
                 </div>
                 <div class="event-more-options-icon" onclick="showContent('.event-more-options-icon','.event-option-menu');">
@@ -218,9 +216,10 @@
                     <a href="#">Удалить событие</a>
                 </div>
             </div>
-            <div class="event-banner">
-                <img src="data:image/jpeg;base64, ${event.getImageBase64()}" alt="event-banner"/>
-            </div>
+            <a href="#">
+                <div class="event-banner">
+                    <img src="data:image/jpeg;base64, ${event.getImageBase64()}" alt="event-banner"/>
+                </div>
             <div class="event-information">
                 <div class="category-link">
                     категория: <a href="${contextPath}/">#Тренинги</a>
@@ -228,43 +227,51 @@
                 </div>
             </div>
             <div class="event-information">
-                <div class="icons">
-                    <img src="${contextPath}/resources/img/calendar-icon.png" alt="calendar-icon">
+                <div class="event-information-wrapper">
+                    <div class="icons">
+                        <img src="${contextPath}/resources/img/calendar-icon.png" alt="calendar-icon">
+                    </div>
+                    <span>${event.start.toString().substring(8,10)} ${month.toString()}</span>
                 </div>
-                <span>${event.start.toString().substring(8,10)} ${month.toString()} - ${event.end.toString().substring(8,10)} ${month.toString()} </span>
             </div>
             <div class="event-information">
-                <div class="icons">
-                    <img src="${contextPath}/resources/img/clock-icon.png" alt="clock-icon">
+                <div class="event-information-wrapper">
+                    <div class="icons">
+                        <img src="${contextPath}/resources/img/clock-icon.png" alt="clock-icon">
+                    </div>
+                    <span>${event.start.toString().substring(11)}-${event.end.toString().substring(11)}</span>
                 </div>
-                <span>${event.start.toString().substring(11)}-${event.end.toString().substring(11)}</span>
             </div>
             <div class="event-information">
-                <div class="icons">
-                    <img src="${contextPath}/resources/img/pin-icon.png" alt="pin-icon">
+                <div class="event-information-wrapper">
+                    <div class="icons">
+                        <img src="${contextPath}/resources/img/pin-icon.png" alt="pin-icon">
+                    </div>
+                    <span>${event.location}</span>
                 </div>
-                <span>${event.location}</span>
             </div>
             <div class="event-information event-share" onclick="showContent('.event-share', '.event-share-toggle');" onmousedown="return false" onselectstart="return false">
-                <div class="icons">
-                    <img src="${contextPath}/resources/img/share-icon-black.png" alt="share-icon">
-                </div>
-                <span>Поделиться</span>
-                <div class="event-share-toggle">
-                    <div class="share-links">
-                        <a href="#"><img src="${contextPath}/resources/img/facebook-modal-blue-icon.png" alt="facebook-icon"></a>
+                <div class="event-information-wrapper">
+                    <div class="icons">
+                        <img src="${contextPath}/resources/img/share-icon.png" alt="share-icon">
                     </div>
-                    <div class="share-links">
-                        <a href="#"><img src="${contextPath}/resources/img/vk-modal-icon.png" alt="facebook-icon"></a>
-                    </div>
-                    <div class="share-links">
-                        <a href="#"><img src="${contextPath}/resources/img/twitter-modal-icon.png" alt="facebook-icon"></a>
-                    </div>
-                    <div class="share-links">
-                        <a href="#"><img src="${contextPath}/resources/img/instagram-modal-icon.png" alt="facebook-icon"></a>
-                    </div>
-                    <div class="share-links">
-                        <a href="#"><img src="${contextPath}/resources/img/telegram-modal-icon.png" alt="facebook-icon"></a>
+                    <span>Поделиться</span>
+                    <div class="event-share-toggle">
+                        <div class="share-links">
+                            <a href="#"><img src="${contextPath}/resources/img/facebook-modal-blue-icon.png" alt="facebook-icon"></a>
+                        </div>
+                        <div class="share-links">
+                            <a href="#"><img src="${contextPath}/resources/img/vk-modal-icon.png" alt="facebook-icon"></a>
+                        </div>
+                        <div class="share-links">
+                            <a href="#"><img src="${contextPath}/resources/img/twitter-modal-icon.png" alt="facebook-icon"></a>
+                        </div>
+                        <div class="share-links">
+                            <a href="#"><img src="${contextPath}/resources/img/instagram-modal-icon.png" alt="facebook-icon"></a>
+                        </div>
+                        <div class="share-links">
+                            <a href="#"><img src="${contextPath}/resources/img/telegram-modal-icon.png" alt="facebook-icon"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -272,7 +279,7 @@
                 Описание
             </div> <!-- line-description -->
             <div class="event-description">
-                <p>${event.description}</p>
+                ${event.description}
             </div> <!-- event-description -->
         </div> <!-- event-page -->
         <div class="complain-content">

@@ -64,6 +64,7 @@ CREATE TABLE events_tags (
 );
 
 ALTER table events add datebegin date
+ALTER table users add subscribedUsers VARCHAR(255)
 
 INSERT INTO roles VALUES (1,'ROLE_USER');
 INSERT INTO roles VALUES (2,'ROLE_ADMIN');

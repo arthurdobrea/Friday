@@ -53,12 +53,11 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-//    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
-//    private List<Event> events = new ArrayList<>(); //events in which user participates
-
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
+    @Column(name = "subscribedUsers")
+    private String subscribedUsers;
 
     public User() {
     }
@@ -192,6 +191,13 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    public String getSubscribedUsers() {
+        return subscribedUsers;
+    }
+
+    public void setSubscribedUsers(String subscribedUsers) {
+        this.subscribedUsers = subscribedUsers;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -208,13 +214,14 @@ public class User implements Serializable {
                 Arrays.equals(image, user.image) &&
                 Objects.equals(subscriptionByEventType, user.subscriptionByEventType) &&
                 Objects.equals(roles, user.roles) &&
-                Objects.equals(eventsOfAuthor, user.eventsOfAuthor);
+                Objects.equals(eventsOfAuthor, user.eventsOfAuthor) &&
+                Objects.equals(subscribedUsers, user.subscribedUsers);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, subscriptionByEventType, roles, eventsOfAuthor);
+        int result = Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, subscriptionByEventType, roles, eventsOfAuthor, subscribedUsers);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }

@@ -25,4 +25,10 @@ public interface UserDao extends JpaRepository<User, Long> {
                                @Param("userName") String username,
                                @Param("lastName") String lastName,
                                @Param("image") byte[] image);
+
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.subscribedUsers = u.subscribedUsers + :subscribedUser where u.username =:subscribedOnUser")
+//    void updateUserSubsribers(@Param("subscribedUser") String subscribedUser,
+//                              @Param("subscribedOnUser") String subscribedOnUser);
 }

@@ -31,8 +31,8 @@
             </div>
             <div class="social-links-nav">
                 <a href="#" class="social-link"><img src="${contextPath}/resources/img/instagram.png" alt="instagram"></a>
-                <a href="#" class="social-link"><img src="${contextPath}/resources/img/facebook.png" alt="instagram"></a>
-                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="instagram"></a>
+                <a href="#" class="social-link"><img src="${contextPath}/resources/img/facebook.png" alt="facebook"></a>
+                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="vk"></a>
             </div>
             <div class="nav-btn">
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -42,8 +42,9 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
+                            <%--<div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>--%>
                             <div class="user-top-avatar">
-                                <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
+                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
@@ -62,7 +63,7 @@
                         </div>
                         <div class="notification-bell-nav" onclick="showContent('.notification-bell-nav', '.top-notify-content');" title="Уведомления" onmousedown="return false" onselectstart="return false">
                             <div class="notification-btn">
-                                <img src="${contextPath}/resources/img/notify-bell.png" alt="notify-btn">
+                                <img src="${contextPath}/resources/img/white-notify-bell.png" alt="notify-btn">
                             </div>
                             <div class="top-notify-content">
                                 <div class="top-notify-header">
@@ -182,10 +183,7 @@
             </div> <!-- btn-edit-profile -->
         </c:if>
         <div class="user-info-top">
-            <div class="event-user-avatar">
-                <img src="data:image/jpeg;base64,${user.getImageBase64()}"
-                        alt="event-banner">
-            </div>
+            <div class="profile-user-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>
             <div class="user-description">
                 <h2>${user.username}</h2>
             </div>
@@ -207,7 +205,7 @@
         <c:forEach items="${allEvents}" var="et">
             <div class="event-content-block">
                 <div class="event-banner">
-                    <a href="${contextPath}/event/${et.id}">
+                    <a href="${contextPath}/event/${et.title}">
                         <img src="data:image/jpeg;base64, ${et.getImageBase64()}" alt="event-banner"/>
                     </a>
                 </div>

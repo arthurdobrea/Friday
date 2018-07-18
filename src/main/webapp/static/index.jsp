@@ -40,8 +40,8 @@
                 <a href="#" class="social-link"><img src="${contextPath}/resources/img/instagram.png"
                                                      alt="instagram"></a>
                 <a href="#" class="social-link"><img src="${contextPath}/resources/img/facebook.png"
-                                                     alt="instagram"></a>
-                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="instagram"></a>
+                                                     alt="facebook"></a>
+                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="vk"></a>
             </div>
             <div class="nav-btn">
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -51,8 +51,9 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
+                            <%--<div class="user-top-avatar" alt="KEK" style="background-image: url(data:image/jpeg;base64,${image})"></div>--%>
                             <div class="user-top-avatar">
-                                <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
+                                <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
                             </div>
                             <div class="user-name-top-menu">
                                 <p>${pageContext.request.userPrincipal.name}</p>
@@ -71,7 +72,7 @@
                         </div>
                         <div class="notification-bell-nav" onclick="showContent('.notification-bell-nav', '.top-notify-content');" title="Уведомления" onmousedown="return false" onselectstart="return false">
                             <div class="notification-btn">
-                                <img src="${contextPath}/resources/img/notify-bell.png" alt="notify-btn">
+                                <img src="${contextPath}/resources/img/white-notify-bell.png" alt="notify-btn">
                             </div>
                             <div class="top-notify-content">
                                 <div class="top-notify-header">
@@ -213,8 +214,8 @@
         </div>
     </div> <!-- event-calendar-block -->
     <div class="search-block">
-        <form:form class="form-search" action="${contextPath}/event/search" method="post">
-            <input autofocus class="input-search" type="text" placeholder="Пойск по названию.." name="keyword" autocomplete="off">
+        <form:form class="form-search" action="${contextPath}/search" method="post">
+            <input class="input-search" type="text" placeholder="Пойск по названию.." name="keyword" autocomplete="off" autofocus="true">
             <button class="submit-search-btn" type="submit"><img src="${contextPath}/resources/img/search-icon.png" alt="search-icon"></button>
         </form:form>
     </div> <!-- search-block -->

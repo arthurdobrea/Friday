@@ -33,8 +33,8 @@
                 <a href="#" class="social-link"><img src="${contextPath}/resources/img/instagram.png"
                                                      alt="instagram"></a>
                 <a href="#" class="social-link"><img src="${contextPath}/resources/img/facebook.png"
-                                                     alt="instagram"></a>
-                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="instagram"></a>
+                                                     alt="facebook"></a>
+                <a href="#" class="social-link"><img src="${contextPath}/resources/img/vk.png" alt="vkontakte"></a>
             </div>
             <div class="nav-btn">
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -44,6 +44,7 @@
                             <div class="arrow-down-top-menu">
                                 <img src="${contextPath}/resources/img/arrow-down-icon.png" alt="arrow-down">
                             </div>
+                            <%--<div class="user-top-avatar" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})"></div>--%>
                             <div class="user-top-avatar">
                                 <img src="data:image/jpeg;base64, ${image}" alt="event-banner"/>
                             </div>
@@ -64,7 +65,7 @@
                         </div>
                         <div class="notification-bell-nav" onclick="showContent('.notification-bell-nav', '.top-notify-content');" title="Уведомления" onmousedown="return false" onselectstart="return false">
                             <div class="notification-btn">
-                                <img src="${contextPath}/resources/img/notify-bell.png" alt="notify-btn">
+                                <img src="${contextPath}/resources/img/white-notify-bell.png" alt="notify-btn">
                             </div>
                             <div class="top-notify-content">
                                 <div class="top-notify-header">
@@ -190,11 +191,11 @@
                     <div class="setting-line">
                         <div class="input-title">фото</div>
                         <div class="input-user-avatar-wrapper">
-                            <div class="input-user-avatar" title="Загрузить фото профиля" style="background-image: url(${contextPath}/resources/img/user-avatar-default.png)">
+                            <div class="input-user-avatar" title="Загрузить фото профиля" style="background-image: url(data:image/jpeg;base64,${user.getImageBase64()})">
                                 <div class="hover-bg">
                                     <form:input type="file" path="image" name="image" class="upload-avatar" accept=".jpg, .jpeg, .png"/>
                                     <div class="hover-label">
-                                        <img src="data:image/jpeg;base64,${image}" alt="user-avatar">
+                                        <img src="${contextPath}/resources/img/photo-camera-icon.png" alt="pic-upload-icon">
                                     </div>
                                 </div>
                             </div>

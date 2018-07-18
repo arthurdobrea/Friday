@@ -62,17 +62,17 @@ $(document).ready(function(){
 
 	// ==================// SCRIPT FOR CHAT SCROLL. PAGE "index-add-event.html" //================== //
 
-	$(".chat-content").niceScroll({
-		cursorcolor: "#141414",
-		cursorwidth: "7px",
-		horizrailenabled: false,
-		zindex: 1,
-		cursorborderradius: "2px"
-	});
+    $(".chat-content, #input-message").niceScroll({
+        cursorcolor: "#141414",
+        cursorwidth: "7px",
+        horizrailenabled: false,
+        zindex: 1,
+        cursorborderradius: "2px"
+    });
 
-	// ==================// SCRIPT FOR CHAT TEXTAREA. PAGE "index-event-page.html" //================== //
+    // ==================// SCRIPT FOR CHAT TEXTAREA. PAGE "index-event-page.html" //================== //
 
-	$('.input-message').textareaAutoSize();
+    $('#input-message').textareaAutoSize();
 
 
 	//Empty for jquery scripts .........................

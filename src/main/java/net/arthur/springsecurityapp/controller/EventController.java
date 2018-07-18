@@ -77,26 +77,12 @@ public class EventController {
         return Pages.EVENT;
     }
 
-
-
-
     @PostMapping(URLs.SEARCH)
     public String showEvents(Model model, @ModelAttribute("keyword") String keyword) {
         model.addAttribute(ALL_EVENTS_ATTR, eventService.getEventByKeyWord(keyword));
         model.addAttribute(USER_FORM_ATTR, new User());
         return Pages.INDEX;
     }
-
-//    @GetMapping(URLs.CALENDAR)
-//    public String calendar(){
-//        return Pages.CALENDAR;
-//    }
-//
-//    @PostMapping(URLs.CALENDAR)
-//    public String calendar(@RequestParam String wtf){
-//        System.out.println(wtf);
-//        return Pages.CALENDAR;
-//    }
 
     @GetMapping(URLs.CREATE)
     public String createEvent(Model model) {
